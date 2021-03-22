@@ -30,6 +30,7 @@ app.use(express.json());
 // TODO: auth//crear, login, renew
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/usuarios', require('./routes/usuarios'));
+app.use('/api/auditoria', require('./routes/auditoria'));
 
 
 // TODO: CRUD:Eventos

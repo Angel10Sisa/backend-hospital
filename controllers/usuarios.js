@@ -3,12 +3,19 @@ const bcrypt = require('bcryptjs');
 const { UsuarioSchema } = require('../models/Usuario');
 const { generarJWT } = require('../helpers/jwt');
 const { RolSchema } = require('../models/Rol');
+const { AuditoriaSchema } = require('../models/Auditoria');
 
 // Listar Usuario
 const getUsuarios = async (req, res=response) => {
     const usuarios = await UsuarioSchema.findAll({include:[{model: RolSchema, as:'Rols'}]});
+    const auditoria = new AuditoriaSchema();
     if(usuarios){
         res.json({usuarios});
+        //Ingreso a la Auditoria
+        auditoria.name='Lista Usuarios';
+        auditoria.descripcion='Se listo Usuarios';
+        auditoria.idusuario=req.id;
+        await auditoria.save();
     }else{
         res.status(201).json({
             ok: false,
@@ -34,14 +41,22 @@ const getUsuario = async (req, res=response) => {
 // Ingreso de Usuario
 const crearUsuarios = async(req, res = response) => {
     const { email, password } = req.body;
+    const auditoria = new AuditoriaSchema();
 
     try {
         let usuario = new UsuarioSchema(req.body);
+        
         //Encriptar contraseña
         const salt = bcrypt.genSaltSync();
         usuario.password = bcrypt.hashSync(password, salt);
 
         await usuario.save();
+
+        //Ingreso a la Auditoria
+        auditoria.name='Ingreso de Usuario';
+        auditoria.descripcion='Se ingreso un nuevo usuario';
+        auditoria.idusuario=req.id;
+        await auditoria.save();
 
         //Generar JWT
         const token = await generarJWT(usuario.id, usuario.name);
@@ -52,7 +67,8 @@ const crearUsuarios = async(req, res = response) => {
             token
         });
 
-    } catch (error) {     
+    } catch (error) {    
+        console.log(error); 
         res.status(500).json({
             ok: false,
             msg: 'Hable con el administrador'
@@ -85,9 +101,15 @@ const editarUsuarios = async(req, res=response) => {
 //Eliminar Usuario
 const eliminarUsuarios = async (req, res=response) => {
     const { id } = req.params;
+    const auditoria=new AuditoriaSchema();
     const usuario = await UsuarioSchema.findByPk(id);
         //await usuario.destroy(); Elmina por completo el dato
         await usuario.update({estado: false}); //Edita elestado de true a false
+        //Ingreso a la Auditoria
+        auditoria.name='Eliminar Usuarios';
+        auditoria.descripcion='Se cambio el estado del usuario';
+        auditoria.idusuario=req.id;
+        await auditoria.save();
         res.status(201).json({
             ok: true,
             usuario
