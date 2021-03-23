@@ -29,13 +29,12 @@ app.use(express.json());
 //Rutas
 // TODO: auth//crear, login, renew
 app.use('/api/auth', require('./routes/auth'));
+
+// TODO: CRUD:Eventos
 app.use('/api/usuarios', require('./routes/usuarios'));
 app.use('/api/auditoria', require('./routes/auditoria'));
 app.use('/api/roles', require('./routes/roles'));
-
-
-// TODO: CRUD:Eventos
-
+app.use('/api/pais', require('./routes/pais'));
 
 
 //Escuchar peticiones

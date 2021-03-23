@@ -79,14 +79,13 @@ const editarRol = async(req, res=response) =>{
         }
         await roles.update(resto);
         //Ingreso a la Auditoria
-        auditoria.name='Eliminar Roles';
+        auditoria.name='Editar Roles';
         auditoria.descripcion=`Se edito Rol ${roles.rol}`;
         auditoria.idusuario=req.id;
         await auditoria.save();
 
         res.json({roles});
     } catch (error) {
-        console.log(error);
         res.status(500).json({
             msg:'Hable con el administrador'
         })
