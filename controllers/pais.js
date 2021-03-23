@@ -92,7 +92,6 @@ const editarPais = async(req, res=response) =>{
 
         res.json({paises});
     } catch (error) {
-        console.log(error);
         res.status(500).json({
             msg:'Hable con el administrador'
         })
@@ -101,7 +100,7 @@ const editarPais = async(req, res=response) =>{
     
 }
 
-//Editar un Pais
+//Eliminar un Pais
 const eliminarPais = async (req, res=response) =>{
     const { id } = req.params;
     const auditoria = new AuditoriaSchema();

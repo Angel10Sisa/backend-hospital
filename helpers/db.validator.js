@@ -1,3 +1,4 @@
+const { PaisSchema } = require('../models/Pais');
 const { RolSchema } = require('../models/Rol');
 const { UsuarioSchema } = require('../models/Usuario');
 
@@ -22,8 +23,16 @@ const existeUsuarioId = async (id)=>{
     }
 }
 
+const existePais = async ( pais = 0) => {
+    let existePais1 = await PaisSchema.findOne({ where: { id : pais } });
+    if( !existePais1 ){
+        throw new Error (`Los datos no se encuentran en la base de datos`);
+    }
+}
+
 module.exports={
     esRolValido,
     emailExiste,
-    existeUsuarioId
+    existeUsuarioId,
+    existePais
 }
