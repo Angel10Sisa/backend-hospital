@@ -31,6 +31,7 @@ app.use(express.json());
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/usuarios', require('./routes/usuarios'));
 app.use('/api/auditoria', require('./routes/auditoria'));
+app.use('/api/roles', require('./routes/roles'));
 
 
 // TODO: CRUD:Eventos

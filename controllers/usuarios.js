@@ -101,7 +101,7 @@ const editarUsuarios = async(req, res=response) => {
 //Eliminar Usuario
 const eliminarUsuarios = async (req, res=response) => {
     const { id } = req.params;
-    const auditoria=new AuditoriaSchema();
+    const auditoria = new AuditoriaSchema();
     const usuario = await UsuarioSchema.findByPk(id);
         //await usuario.destroy(); Elmina por completo el dato
         await usuario.update({estado: false}); //Edita elestado de true a false
