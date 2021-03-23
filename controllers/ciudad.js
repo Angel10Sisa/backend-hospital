@@ -55,7 +55,6 @@ const crearCiudad = async(req, res=response) => {
             ciudades
         });
     } catch (error) {
-        console.log(error);
         res.status(500).json({
             ok: false,
             msg: 'Hable con el administrador'
@@ -83,7 +82,6 @@ const editarCiudad = async(req, res=response) => {
 
         res.json({ciudades})
     } catch (error) {
-        console.log(error);
         res.status(500).json({
             msg:'Hable con el administrador'
         })

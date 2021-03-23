@@ -1,3 +1,4 @@
+const { CiudadSchema } = require('../models/Ciudad');
 const { PaisSchema } = require('../models/Pais');
 const { ProvinciaSchema } = require('../models/Provincia');
 const { RolSchema } = require('../models/Rol');
@@ -27,20 +28,29 @@ const existeUsuarioId = async (id)=>{
 const existePais = async ( pais = 0) => {
     let existePais1 = await PaisSchema.findOne({ where: { id : pais } });
     if( !existePais1 ){
-        throw new Error (`Los datos no se encuentran en la base de datos`);
+        throw new Error (`Los datos del pais no se encuentran en la base de datos`);
     }
 }
 
 const existeProvincia = async ( provincia = 0) => {
     let existeProvincia1 = await ProvinciaSchema.findOne({ where: { id : provincia } });
     if( !existeProvincia1 ){
-        throw new Error (`Los datos no se encuentran en la base de datos`);
+        throw new Error (`Los datos de la provincia no se encuentran en la base de datos`);
     }
 }
+
+const existeCuidad = async ( ciudad = 0) => {
+    let existeCuidad1 = await CiudadSchema.findOne({ where: { id : ciudad } });
+    if( !existeCuidad1 ){
+        throw new Error (`Los datos de la ciudad no se encuentran en la base de datos`);
+    }
+}
+
 module.exports={
     esRolValido,
     emailExiste,
     existeUsuarioId,
     existePais,
-    existeProvincia
+    existeProvincia,
+    existeCuidad
 }

@@ -37,6 +37,7 @@ app.use('/api/roles', require('./routes/roles'));
 app.use('/api/pais', require('./routes/pais'));
 app.use('/api/provincia', require('./routes/provincia'));
 app.use('/api/ciudad', require('./routes/ciudad'));
+app.use('/api/direccion', require('./routes/direccion'));
 
 
 //Escuchar peticiones
