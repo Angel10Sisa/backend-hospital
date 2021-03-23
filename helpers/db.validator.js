@@ -1,4 +1,5 @@
 const { PaisSchema } = require('../models/Pais');
+const { ProvinciaSchema } = require('../models/Provincia');
 const { RolSchema } = require('../models/Rol');
 const { UsuarioSchema } = require('../models/Usuario');
 
@@ -30,9 +31,16 @@ const existePais = async ( pais = 0) => {
     }
 }
 
+const existeProvincia = async ( provincia = 0) => {
+    let existeProvincia1 = await ProvinciaSchema.findOne({ where: { id : provincia } });
+    if( !existeProvincia1 ){
+        throw new Error (`Los datos no se encuentran en la base de datos`);
+    }
+}
 module.exports={
     esRolValido,
     emailExiste,
     existeUsuarioId,
-    existePais
+    existePais,
+    existeProvincia
 }
