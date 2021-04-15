@@ -42,6 +42,7 @@ app.use('/api/proveedor', require('./routes/proveedor'));
 app.use('/api/tipoidentificacion', require('./routes/tipoidentificacion'));
 app.use('/api/estadocivil', require('./routes/estadocivil'));
 app.use('/api/sexo', require('./routes/sexo'));
+app.use('/api/afiliacion', require('./routes/afiliacion'));
 
 
 //Escuchar peticiones

@@ -4,7 +4,7 @@ const { db } = require ('../database/config');
 const PaisSchema = db.define('Pais', {
     pais: {
         type: DataTypes.STRING,
-        require: true
+        required: true
     }},
     {
     freezeTableName: true

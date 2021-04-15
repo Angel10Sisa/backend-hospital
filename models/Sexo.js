@@ -4,7 +4,7 @@ const { db } = require ('../database/config');
 const SexoSchema = db.define('Sexo',{
     sexo: {
         type: DataTypes.STRING,
-        require: true
+        required: true
     }},
     {
         freezeTableName: true

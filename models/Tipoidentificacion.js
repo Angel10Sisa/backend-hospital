@@ -4,7 +4,7 @@ const { db } = require ('../database/config');
 const TipoidentificacionSchema = db.define('Tipoidentificacion',{
     tipo:{
         type: DataTypes.STRING,
-        require: true
+        required: true
     }},
     {
         freezeTableName: true

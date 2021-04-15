@@ -4,7 +4,7 @@ const { db } = require ('../database/config');
 const EstadocivilSchema = db.define('Estadocivil',{
     estadocivil: {
         type: DataTypes.STRING,
-        require: true
+        required: true
     }},
     {
         freezeTableName: true

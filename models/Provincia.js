@@ -5,11 +5,11 @@ const {PaisSchema} = require ('../models/Pais')
 const ProvinciaSchema = db.define('Provincia',{
     provincia: {
         type: DataTypes.STRING,
-        require: true
+        required: true
     },
     pais: {
         type: DataTypes.INTEGER,
-        require: true,
+        required: true,
         references:{
             model: PaisSchema,
             key:'id'

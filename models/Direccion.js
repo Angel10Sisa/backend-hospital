@@ -7,7 +7,7 @@ const { PaisSchema } = require('./Pais');
 const DireccionSchema = db.define('Direccion',{
     pais: {
         type: DataTypes.INTEGER,
-        require: true,
+        required: true,
         references:{
             model: PaisSchema,
             key:'id'
@@ -23,7 +23,7 @@ const DireccionSchema = db.define('Direccion',{
     },
     ciudad: {
         type: DataTypes.INTEGER,
-        require: true,
+        required: true,
         references:{
             model: CiudadSchema,
             key:'id'
@@ -31,11 +31,11 @@ const DireccionSchema = db.define('Direccion',{
     },
     direccion: {
         type: DataTypes.STRING,
-        require: true
+        required: true
     },
     referencia: {
         type: DataTypes.STRING,
-        require: true
+        required: true
     }},
     {
     freezeTableName: true

@@ -5,23 +5,23 @@ const { DireccionSchema } = require('./Direccion');
 const ProveedorSchema = db.define('Proveedor',{
     nombre: {
         type: DataTypes.STRING,
-        require: true
+        required: true
     },
     contacto: {
         type: DataTypes.STRING,
-        require: true
+        required: true
     },
     telefono: {
         type: DataTypes.STRING,
-        require: true
+        required: true
     }, 
     celular: {
         type: DataTypes.STRING,
-        require: true
+        required: true
     },
     email: {
         type: DataTypes.STRING,
-        require: true
+        required: true
     },
     estado: {
         type: DataTypes.BOOLEAN,
@@ -29,7 +29,7 @@ const ProveedorSchema = db.define('Proveedor',{
     },
     direccion: {
         type: DataTypes.INTEGER,
-        require: true,
+        required: true,
         references:{
             model: DireccionSchema,
             key:'id'

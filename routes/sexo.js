@@ -3,8 +3,9 @@
     host + /api/sexo
 */
 const { Router } = require('express');
+const { check } = require('express-validator');
 const { getSexos, getSexo, crearSexo, editarSexo, eliminarSexo } = require('../controllers/sexo');
-const { validarJWT } = require('../middlewares');
+const { validarJWT, validarCampos } = require('../middlewares');
 const router=Router();
 
 //Todas tienen que pasar por la validacion de JWT
@@ -17,7 +18,10 @@ router.get('/',getSexos);
 router.get('/:id',getSexo);
 
 //Ingresar Sexo
-router.post('/',crearSexo);
+router.post('/',[
+    check('sexo','El sexo es obligatorio').not().isEmpty(),
+    validarCampos
+],crearSexo);
 
 //Editar Sexo
 router.put('/:id',editarSexo);
