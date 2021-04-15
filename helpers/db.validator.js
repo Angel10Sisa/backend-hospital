@@ -1,4 +1,5 @@
 const { CiudadSchema } = require('../models/Ciudad');
+const { DireccionSchema } = require('../models/Direccion');
 const { PaisSchema } = require('../models/Pais');
 const { ProvinciaSchema } = require('../models/Provincia');
 const { RolSchema } = require('../models/Rol');
@@ -46,11 +47,19 @@ const existeCuidad = async ( ciudad = 0) => {
     }
 }
 
+const existeDireccion = async ( direccion = 0) => {
+    let existeDireccion1 = await DireccionSchema.findOne({ where: { id : direccion } });
+    if( !existeDireccion1 ){
+        throw new Error (`Los datos de la direccion no se encuentran en la base de datos`);
+    }
+}
+
 module.exports={
     esRolValido,
     emailExiste,
     existeUsuarioId,
     existePais,
     existeProvincia,
-    existeCuidad
+    existeCuidad,
+    existeDireccion
 }
