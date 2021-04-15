@@ -40,6 +40,7 @@ app.use('/api/ciudad', require('./routes/ciudad'));
 app.use('/api/direccion', require('./routes/direccion'));
 app.use('/api/proveedor', require('./routes/proveedor'));
 app.use('/api/tipoidentificacion', require('./routes/tipoidentificacion'));
+app.use('/api/estadocivil', require('./routes/estadocivil'));
 
 
 //Escuchar peticiones

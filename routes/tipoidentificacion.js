@@ -12,22 +12,22 @@ const router = Router();
 //Todas tienen que pasar por la validacion de JWT
 router.use(validarJWT);
 
-//Obtener Ciudades
+//Obtener Tipoidentificaciones
 router.get('/',getTipoidentificaciones);
 
-//Obtener Ciudad
+//Obtener Tipoidentificaciones
 router.get('/:id',getTipoidentificacion);
 
-//Ingresar Ciudad
+//Ingresar Tipoidentificaciones
 router.post('/',[
     check('tipo','El tipo de indentificación es obligatorio').not().isEmpty(),
     validarCampos
 ],crearTipoidentificacion);
 
-//Editar Ciudad
+//Editar Tipoidentificaciones
 router.put('/:id',editarTipoidentificacion);
 
-//Eliminar Ciudad
+//Eliminar Tipoidentificaciones
 router.delete('/:id',eliminarTipoidentificacion);
 
 module.exports = router;
