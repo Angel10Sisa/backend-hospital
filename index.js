@@ -49,6 +49,7 @@ app.use('/api/iva', require('./routes/iva'));
 app.use('/api/formapago', require('./routes/formapago'));
 app.use('/api/concepto', require('./routes/concepto'));
 app.use('/api/tipoproducto', require('./routes/tipoproducto'));
+app.use('/api/bodega', require('./routes/bodega'));
 
 
 //Escuchar peticiones
