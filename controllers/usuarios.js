@@ -24,6 +24,46 @@ const getUsuarios = async (req, res=response) => {
     }
 }
 
+//Listar Usuarios True
+const getUsuarioT = async (req, res=response) => {
+    try {
+        const usuarios = await UsuarioSchema.findAll({where:{estado:true}});
+        if(usuarios){
+            res.json({usuarios})
+        }else{
+            res.status(201).json({
+                ok: false,
+                msg: 'No existen Datos que mostrar'
+            })
+        }
+    } catch (error) {
+        res.status(500).json({
+            ok: false,
+            msg: 'Hable con el administrador'
+        });
+    }
+}
+
+//Listar Paciente False
+const getUsuarioF = async (req, res=response) => {
+    try {
+        const usuarios = await UsuarioSchema.findAll({where:{estado:false}});
+        if(usuarios){
+            res.json({usuarios})
+        }else{
+            res.status(201).json({
+                ok: false,
+                msg: 'No existen Datos que mostrar'
+            })
+        }
+    } catch (error) {
+        res.status(500).json({
+            ok: false,
+            msg: 'Hable con el administrador'
+        });
+    }
+}
+
 //Obtener Usuario
 const getUsuario = async (req, res=response) => {
     const { id } = req.params;
@@ -118,6 +158,8 @@ const eliminarUsuarios = async (req, res=response) => {
 
 module.exports = {
     getUsuarios,
+    getUsuarioT,
+    getUsuarioF,
     getUsuario,
     crearUsuarios,
     editarUsuarios,
