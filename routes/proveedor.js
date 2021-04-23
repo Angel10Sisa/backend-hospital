@@ -4,7 +4,7 @@
 */
 const { Router } = require('express');
 const { check } = require('express-validator');
-const { getProveedores, getProveedor, crearProveedor, editarProveedor, eliminarProveedor } = require('../controllers/proveedor');
+const { getProveedores, getProveedor, crearProveedor, editarProveedor, eliminarProveedor, getProveedorT, getProveedorF } = require('../controllers/proveedor');
 const { existeDireccion } = require('../helpers/db.validator');
 const { validarJWT, validarCampos } = require('../middlewares');
 const router = Router();
@@ -14,6 +14,12 @@ router.use(validarJWT);
 
 //Obtener Proveedores
 router.get('/',getProveedores);
+
+//Obtener Proveedor True
+router.get('/true',getProveedorT);
+
+//Obtener Proveedor False
+router.get('/false',getProveedorF);
 
 //Obtener Proveedor
 router.get('/:id',getProveedor);

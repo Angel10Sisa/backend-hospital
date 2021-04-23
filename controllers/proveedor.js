@@ -4,7 +4,7 @@ const { ProveedorSchema } = require('../models/Proveedor');
 
 // Listar Proveedor
 const getProveedores = async (req, res=response) => {
-    const proveedores = await ProveedorSchema.findAll({where:{estado:true}});
+    const proveedores = await ProveedorSchema.findAll();
     if(proveedores){
         res.json({proveedores});
     }else{
@@ -12,6 +12,46 @@ const getProveedores = async (req, res=response) => {
             ok: false,
             msg: 'No existen Datos que mostrar'
         })
+    }
+}
+
+//Listar Paciente True
+const getProveedorT = async (req, res=response) => {
+    try {
+        const proveedores = await ProveedorSchema.findAll({where:{estado:true}});
+        if(proveedores){
+            res.json({proveedores})
+        }else{
+            res.status(201).json({
+                ok: false,
+                msg: 'No existen Datos que mostrar'
+            })
+        }
+    } catch (error) {
+        res.status(500).json({
+            ok: false,
+            msg: 'Hable con el administrador'
+        });
+    }
+}
+
+//Listar Paciente False
+const getProveedorF = async (req, res=response) => {
+    try {
+        const proveedores = await ProveedorSchema.findAll({where:{estado:false}});
+        if(proveedores){
+            res.json({proveedores})
+        }else{
+            res.status(201).json({
+                ok: false,
+                msg: 'No existen Datos que mostrar'
+            })
+        }
+    } catch (error) {
+        res.status(500).json({
+            ok: false,
+            msg: 'Hable con el administrador'
+        });
     }
 }
 
@@ -110,6 +150,8 @@ const eliminarProveedor = async (req, res=response) => {
 
 module.exports = {
     getProveedores,
+    getProveedorT,
+    getProveedorF,
     getProveedor,
     crearProveedor,
     editarProveedor,
