@@ -22,6 +22,46 @@ const getAfiliaciones = async(req, res=response) => {
     }
 }
 
+//Listar Afiliacion True
+const getAfiliacionT = async (req, res=response) => {
+    try {
+        const afiliaciones = await AfiliacionSchema.findAll({where:{estado:true}});
+        if(afiliaciones){
+            res.json({afiliaciones})
+        }else{
+            res.status(201).json({
+                ok: false,
+                msg: 'No existen Datos que mostrar'
+            })
+        }
+    } catch (error) {
+        res.status(500).json({
+            ok: false,
+            msg: 'Hable con el administrador'
+        });
+    }
+}
+
+//Listar Afiliacion False
+const getAfiliacionF = async (req, res=response) => {
+    try {
+        const afiliaciones = await AfiliacionSchema.findAll({where:{estado:false}});
+        if(afiliaciones){
+            res.json({afiliaciones})
+        }else{
+            res.status(201).json({
+                ok: false,
+                msg: 'No existen Datos que mostrar'
+            })
+        }
+    } catch (error) {
+        res.status(500).json({
+            ok: false,
+            msg: 'Hable con el administrador'
+        });
+    }
+}
+
 //Obtener Afiliacion
 const getAfiliacion = async(req, res=response) => {
     const { id } = req.params;
@@ -130,6 +170,8 @@ const eliminarAfiliacion = async(req, res=response) => {
 
 module.exports = {
     getAfiliaciones,
+    getAfiliacionT,
+    getAfiliacionF,
     getAfiliacion,
     crearAfiliacion,
     editarAfiliacion,

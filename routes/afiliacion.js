@@ -4,7 +4,7 @@
 */
 const { Router } = require('express');
 const { check } = require('express-validator');
-const { getAfiliaciones, getAfiliacion, crearAfiliacion, editarAfiliacion, eliminarAfiliacion } = require('../controllers/afiliacion');
+const { getAfiliaciones, getAfiliacion, crearAfiliacion, editarAfiliacion, eliminarAfiliacion, getAfiliacionT, getAfiliacionF } = require('../controllers/afiliacion');
 const { validarJWT, validarCampos } = require('../middlewares');
 const router=Router();
 
@@ -13,6 +13,12 @@ router.use(validarJWT);
 
 //Listar Afiliacion
 router.get('/',getAfiliaciones);
+
+//Obtener Afiliacion True
+router.get('/true',getAfiliacionT);
+
+//Obtener Afiliacion False
+router.get('/false',getAfiliacionF);
 
 //Obtener Afiliacion
 router.get('/:id',getAfiliacion);
