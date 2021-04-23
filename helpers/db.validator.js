@@ -1,8 +1,13 @@
+const { AfiliacionSchema } = require('../models/Afiliacion');
 const { CiudadSchema } = require('../models/Ciudad');
 const { DireccionSchema } = require('../models/Direccion');
+const { EstadocivilSchema } = require('../models/Estadocivil');
 const { PaisSchema } = require('../models/Pais');
 const { ProvinciaSchema } = require('../models/Provincia');
 const { RolSchema } = require('../models/Rol');
+const { SexoSchema } = require('../models/Sexo');
+const { TipoidentificacionSchema } = require('../models/Tipoidentificacion');
+const { TipopacienteSchema } = require('../models/Tipopaciente');
 const { UsuarioSchema } = require('../models/Usuario');
 
 const esRolValido = async ( rol = null ) => {
@@ -54,6 +59,36 @@ const existeDireccion = async ( direccion = 0) => {
     }
 }
 
+const existeEstadocivil = async ( estadocivil = 0 ) => {
+    let existeEstadocivil1 = await EstadocivilSchema.findOne({ where: { id : estadocivil } });
+    if( !existeEstadocivil1 ){
+        throw new Error (`Los datos del Estado Civil no se encuentran en la base de datos`);
+    }
+}
+
+const existeSexo = async ( sexo = 0 ) => {
+    let existeSexo1 = await SexoSchema.findOne({ where: { id : sexo } });
+    if( !existeSexo1 ){
+        throw new Error (`Los datos de Sexo no se encuentran en la base de datos`);
+    }
+}
+
+const existeAfiliacion = async ( afiliacion = 0 ) => {
+    let existeAfiliacion1 = await AfiliacionSchema.findOne({ where: { id : afiliacion } });
+    if( !existeAfiliacion1 ){
+        throw new Error (`Los datos de la Afiliacion no se encuentran en la base de datos`);
+    }
+}
+
+const existeTipopaciente = async ( tipopaciente = 0 ) => {
+    let existeTipopaciente1 = await TipopacienteSchema.findOne({ where: { id : tipopaciente } });
+    if( !existeTipopaciente1 ){
+        throw new Error (`Los datos del Tipo paciente no se encuentran en la base de datos`);
+    }
+}
+
+
+
 module.exports={
     esRolValido,
     emailExiste,
@@ -61,5 +96,9 @@ module.exports={
     existePais,
     existeProvincia,
     existeCuidad,
-    existeDireccion
+    existeDireccion,
+    existeEstadocivil,
+    existeSexo,
+    existeAfiliacion,
+    existeTipopaciente,
 }

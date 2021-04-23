@@ -50,6 +50,7 @@ app.use('/api/formapago', require('./routes/formapago'));
 app.use('/api/concepto', require('./routes/concepto'));
 app.use('/api/tipoproducto', require('./routes/tipoproducto'));
 app.use('/api/bodega', require('./routes/bodega'));
+app.use('/api/paciente', require('./routes/paciente'));
 
 
 //Escuchar peticiones
