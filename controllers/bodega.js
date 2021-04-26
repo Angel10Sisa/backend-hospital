@@ -23,6 +23,46 @@ const getBodegas = async ( req, res= response)=>{
     }
 }
 
+//Listar todas las Bodegas True
+const getBodegasT = async ( req, res=response) =>{
+    try {
+        const bodegas = await BodegaSchema.findAll({where:{estado:true}});
+        if(bodegas){
+            res.json({bodegas})
+        }else{
+            res.status(201).json({
+                ok: false,
+                msg: 'No existen Datos que mostrar'
+            })
+        }
+    } catch (error) {
+        res.status(500).json({
+            ok: false,
+            msg: 'Hable con el administrador'
+        });
+    }
+}
+
+//Listar todas las Bodegas False
+const getBodegasF = async ( req, res=response) =>{
+    try {
+        const bodegas = await BodegaSchema.findAll({where:{estado:false}});
+        if(bodegas){
+            res.json({bodegas})
+        }else{
+            res.status(201).json({
+                ok: false,
+                msg: 'No existen Datos que mostrar'
+            })
+        }
+    } catch (error) {
+        res.status(500).json({
+            ok: false,
+            msg: 'Hable con el administrador'
+        });
+    }
+}
+
 //Obtener Bodega
 const getBodega = async ( req, res= response)=>{
     const { id } = req.params;
@@ -131,6 +171,8 @@ const eliminarBodega = async ( req, res= response)=>{
 
 module.exports={
     getBodegas,
+    getBodegasT,
+    getBodegasF,
     getBodega,
     crearBodega,
     editarBodega,

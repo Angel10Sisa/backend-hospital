@@ -4,7 +4,7 @@
 */
 const { Router } = require('express');
 const { check } = require('express-validator');
-const { getBodegas, getBodega, crearBodega, editarBodega, eliminarBodega } = require('../controllers/bodega');
+const { getBodegas, getBodega, crearBodega, editarBodega, eliminarBodega, getBodegasT, getBodegasF } = require('../controllers/bodega');
 const { validarJWT, validarCampos } = require('../middlewares');
 const router=Router();
 
@@ -13,6 +13,12 @@ router.use(validarJWT);
 
 //Obtener Bodegas
 router.get('/',getBodegas);
+
+//Obtener Bodegas True
+router.get('/true',getBodegasT);
+
+//Obtener Bodegas False
+router.get('/false',getBodegasF);
 
 //Obtener Bodega
 router.get('/:id',getBodega);
