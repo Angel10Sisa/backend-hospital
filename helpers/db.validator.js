@@ -1,5 +1,7 @@
 const { AfiliacionSchema } = require('../models/Afiliacion');
+const { BodegaSchema } = require('../models/Bodega');
 const { CiudadSchema } = require('../models/Ciudad');
+const { ConceptoSchema } = require('../models/Concepto');
 const { DireccionSchema } = require('../models/Direccion');
 const { EstadocivilSchema } = require('../models/Estadocivil');
 const { PaisSchema } = require('../models/Pais');
@@ -87,6 +89,20 @@ const existeTipopaciente = async ( tipopaciente = 0 ) => {
     }
 }
 
+const existeConcepto = async ( concepto = 0 ) => {
+    let existeConcepto1 = await ConceptoSchema.findOne({ where: { id : concepto } });
+    if( !existeConcepto1 ){
+        throw new Error (`Los datos del concepto no se encuentran en la base de datos`);
+    }
+}
+
+const existeBodega = async ( bodegasalida = 0 ) => {
+    console.log(bodegasalida);
+    let existeBodegaSalida1 = await BodegaSchema.findOne({ where: { id : bodegasalida } });
+    if( !existeBodegaSalida1 ){
+        throw new Error (`Los datos de la bodega no se encuentran en la base de datos`);
+    }
+}
 
 
 module.exports={
@@ -101,4 +117,6 @@ module.exports={
     existeSexo,
     existeAfiliacion,
     existeTipopaciente,
+    existeConcepto,
+    existeBodega
 }
