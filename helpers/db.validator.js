@@ -2,8 +2,12 @@ const { AfiliacionSchema } = require('../models/Afiliacion');
 const { BodegaSchema } = require('../models/Bodega');
 const { CiudadSchema } = require('../models/Ciudad');
 const { ConceptoSchema } = require('../models/Concepto');
+const { DescuentoSchema } = require('../models/Descuento');
 const { DireccionSchema } = require('../models/Direccion');
 const { EstadocivilSchema } = require('../models/Estadocivil');
+const { FormapagoSchema } = require('../models/Formapago');
+const { IvaSchema } = require('../models/Iva');
+const { PacienteSchema } = require('../models/Paciente');
 const { PaisSchema } = require('../models/Pais');
 const { ProvinciaSchema } = require('../models/Provincia');
 const { RolSchema } = require('../models/Rol');
@@ -111,6 +115,33 @@ const existeTipoproducto = async ( tipoproducto = 0 ) => {
     }
 }
 
+const existePaciente = async ( paciente = 0 ) => {
+    let existePaciente1 = await PacienteSchema.findOne({ where: { id : paciente } });
+    if( !existePaciente1 ){
+        throw new Error (`Los datos del paciente no se encuentran en la base de datos`);
+    }
+}
+
+const existeIva = async ( iva = 0 ) => {
+    let existeIva1 = await IvaSchema.findOne({ where: { id : iva } });
+    if( !existeIva1 ){
+        throw new Error (`Los datos del iva no se encuentran en la base de datos`);
+    }
+}
+
+const existeDescuento = async ( descuento = 0 ) => {
+    let existeDescuento1 = await DescuentoSchema.findOne({ where: { id : descuento } });
+    if( !existeDescuento1 ){
+        throw new Error (`Los datos del descuento no se encuentran en la base de datos`);
+    }
+}
+
+const existeFormapago = async ( formapago = 0 ) => {
+    let existeFormapago1 = await FormapagoSchema.findOne({ where: { id : formapago } });
+    if( !existeFormapago1 ){
+        throw new Error (`Los datos de la forma de pago no se encuentran en la base de datos`);
+    }
+}
 
 module.exports={
     esRolValido,
@@ -126,5 +157,9 @@ module.exports={
     existeTipopaciente,
     existeConcepto,
     existeBodega,
-    existeTipoproducto
+    existeTipoproducto,
+    existePaciente,
+    existeIva,
+    existeDescuento,
+    existeFormapago
 }
