@@ -10,6 +10,7 @@ const { RolSchema } = require('../models/Rol');
 const { SexoSchema } = require('../models/Sexo');
 const { TipoidentificacionSchema } = require('../models/Tipoidentificacion');
 const { TipopacienteSchema } = require('../models/Tipopaciente');
+const { TipoproductoSchema } = require('../models/Tipoproducto');
 const { UsuarioSchema } = require('../models/Usuario');
 
 const esRolValido = async ( rol = null ) => {
@@ -97,10 +98,16 @@ const existeConcepto = async ( concepto = 0 ) => {
 }
 
 const existeBodega = async ( bodegasalida = 0 ) => {
-    console.log(bodegasalida);
     let existeBodegaSalida1 = await BodegaSchema.findOne({ where: { id : bodegasalida } });
     if( !existeBodegaSalida1 ){
         throw new Error (`Los datos de la bodega no se encuentran en la base de datos`);
+    }
+}
+
+const existeTipoproducto = async ( tipoproducto = 0 ) => {
+    let existeTipoproducto1 = await TipoproductoSchema.findOne({ where: { id : tipoproducto } });
+    if( !existeTipoproducto1 ){
+        throw new Error (`Los datos de Tipo producto no se encuentran en la base de datos`);
     }
 }
 
@@ -118,5 +125,6 @@ module.exports={
     existeAfiliacion,
     existeTipopaciente,
     existeConcepto,
-    existeBodega
+    existeBodega,
+    existeTipoproducto
 }
