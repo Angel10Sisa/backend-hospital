@@ -54,6 +54,7 @@ app.use('/api/paciente', require('./routes/paciente'));
 app.use('/api/transaccion', require('./routes/transaccion'));
 app.use('/api/producto', require('./routes/producto'));
 app.use('/api/venta', require('./routes/venta'));
+app.use('/api/compra', require('./routes/compra'));
 
 
 //Escuchar peticiones

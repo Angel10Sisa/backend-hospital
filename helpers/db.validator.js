@@ -9,6 +9,7 @@ const { FormapagoSchema } = require('../models/Formapago');
 const { IvaSchema } = require('../models/Iva');
 const { PacienteSchema } = require('../models/Paciente');
 const { PaisSchema } = require('../models/Pais');
+const { ProveedorSchema } = require('../models/Proveedor');
 const { ProvinciaSchema } = require('../models/Provincia');
 const { RolSchema } = require('../models/Rol');
 const { SexoSchema } = require('../models/Sexo');
@@ -143,6 +144,13 @@ const existeFormapago = async ( formapago = 0 ) => {
     }
 }
 
+const existeProveedor = async ( proveedor = 0 ) => {
+    let existeProveedor1 = await ProveedorSchema.findOne({ where: { id : proveedor } });
+    if( !existeProveedor1 ){
+        throw new Error (`Los datos del proveedor no se encuentran en la base de datos`);
+    }
+}
+
 module.exports={
     esRolValido,
     emailExiste,
@@ -161,5 +169,6 @@ module.exports={
     existePaciente,
     existeIva,
     existeDescuento,
-    existeFormapago
+    existeFormapago,
+    existeProveedor
 }

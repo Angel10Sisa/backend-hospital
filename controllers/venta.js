@@ -108,7 +108,6 @@ const crearVenta = async ( req, res = response) => {
             ventas
         });
     } catch (error) {
-        console.log(error);
         res.status(500).json({
             ok: false,
             msg: 'Hable con el administrador'
