@@ -9,11 +9,11 @@ const { FormapagoSchema } = require('../models/Formapago');
 const { IvaSchema } = require('../models/Iva');
 const { PacienteSchema } = require('../models/Paciente');
 const { PaisSchema } = require('../models/Pais');
+const { ProductoSchema } = require('../models/Producto');
 const { ProveedorSchema } = require('../models/Proveedor');
 const { ProvinciaSchema } = require('../models/Provincia');
 const { RolSchema } = require('../models/Rol');
 const { SexoSchema } = require('../models/Sexo');
-const { TipoidentificacionSchema } = require('../models/Tipoidentificacion');
 const { TipopacienteSchema } = require('../models/Tipopaciente');
 const { TipoproductoSchema } = require('../models/Tipoproducto');
 const { UsuarioSchema } = require('../models/Usuario');
@@ -151,6 +151,12 @@ const existeProveedor = async ( proveedor = 0 ) => {
     }
 }
 
+const existeProducto = async ( producto = 0 ) => {
+    let existeProducto1 = await ProductoSchema.findOne({ where: { id : producto } });
+    if( !existeProducto1 ){
+        throw new Error (`Los datos del producto no se encuentran en la base de datos`);
+    }
+}
 module.exports={
     esRolValido,
     emailExiste,
@@ -170,5 +176,6 @@ module.exports={
     existeIva,
     existeDescuento,
     existeFormapago,
-    existeProveedor
+    existeProveedor,
+    existeProducto
 }

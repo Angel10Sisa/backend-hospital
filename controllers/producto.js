@@ -85,11 +85,18 @@ const getProducto = async ( req, res = response ) => {
 
 //Crear Producto
 const crearProducto = async ( req, res = response ) => {
-    const { nombre } = req.body;
+    const { nombre, codigo } = req.body;
     const auditoria = new AuditoriaSchema();
     try {
         let productos = await ProductoSchema.findOne({where: {nombre:nombre}});
         if(productos){
+            return res.status(400).json({
+                ok: false,
+                msg: 'Producto ya Existe'
+            });
+        }
+        let productosc = await ProductoSchema.findOne({where: {codigo:codigo}});
+        if(productosc){
             return res.status(400).json({
                 ok: false,
                 msg: 'Producto ya Existe'

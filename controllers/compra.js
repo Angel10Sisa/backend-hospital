@@ -151,7 +151,6 @@ const editarCompra = async (req, res=response) =>{
 
         res.json({compras})
     } catch (error) {
-        console.log(error);
         res.status(500).json({
             msg:'Hable con el administrador'
         })
