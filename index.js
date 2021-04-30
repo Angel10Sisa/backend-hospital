@@ -56,6 +56,7 @@ app.use('/api/producto', require('./routes/producto'));
 app.use('/api/venta', require('./routes/venta'));
 app.use('/api/compra', require('./routes/compra'));
 app.use('/api/productobodega', require('./routes/productobodega'));
+app.use('/api/detalletransaccion', require('./routes/detalletransaccion'));
 
 
 //Escuchar peticiones

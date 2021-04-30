@@ -16,6 +16,7 @@ const { RolSchema } = require('../models/Rol');
 const { SexoSchema } = require('../models/Sexo');
 const { TipopacienteSchema } = require('../models/Tipopaciente');
 const { TipoproductoSchema } = require('../models/Tipoproducto');
+const { TransaccionSchema } = require('../models/Transaccion');
 const { UsuarioSchema } = require('../models/Usuario');
 
 const esRolValido = async ( rol = null ) => {
@@ -157,6 +158,14 @@ const existeProducto = async ( producto = 0 ) => {
         throw new Error (`Los datos del producto no se encuentran en la base de datos`);
     }
 }
+
+const existeTransaccion = async ( transaccion = 0 ) => {
+    let existeTransaccion1 = await TransaccionSchema.findOne({ where: { id : transaccion } });
+    if( !existeTransaccion1 ){
+        throw new Error (`Los datos de la transaccion no se encuentran en la base de datos`);
+    }
+}
+
 module.exports={
     esRolValido,
     emailExiste,
@@ -177,5 +186,6 @@ module.exports={
     existeDescuento,
     existeFormapago,
     existeProveedor,
-    existeProducto
+    existeProducto,
+    existeTransaccion
 }
