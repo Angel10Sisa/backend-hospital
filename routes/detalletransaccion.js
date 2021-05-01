@@ -22,7 +22,7 @@ router.get('/:id',getDetalletransaccion);
 //Ingresar Detalletransaccion
 router.post('/',[
     check('transaccion','La transaccion es obligatoria').custom(existeTransaccion),
-    check('producto','La producto es obligatoria').custom(existeProducto),
+    check('producto','El producto es obligatoria').custom(existeProducto),
     check('cantidad','La cantidad es obligatoria').isInt(),
     validarCampos
 ],crearDetalletransaccion);
