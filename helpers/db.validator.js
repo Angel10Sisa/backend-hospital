@@ -1,6 +1,7 @@
 const { AfiliacionSchema } = require('../models/Afiliacion');
 const { BodegaSchema } = require('../models/Bodega');
 const { CiudadSchema } = require('../models/Ciudad');
+const { CompraSchema } = require('../models/Compra');
 const { ConceptoSchema } = require('../models/Concepto');
 const { DescuentoSchema } = require('../models/Descuento');
 const { DireccionSchema } = require('../models/Direccion');
@@ -174,6 +175,13 @@ const existeVenta = async ( venta = 0 ) => {
     }
 }
 
+const existeCompra = async ( compra = 0 ) => {
+    let existeCompra1 = await CompraSchema.findOne({ where: { id : compra } });
+    if( !existeCompra1 ){
+        throw new Error (`Los datos de la compra no se encuentran en la base de datos`);
+    }
+}
+
 module.exports={
     esRolValido,
     emailExiste,
@@ -196,5 +204,6 @@ module.exports={
     existeProveedor,
     existeProducto,
     existeTransaccion,
-    existeVenta
+    existeVenta,
+    existeCompra
 }
