@@ -90,7 +90,10 @@ const editarPais = async(req, res=response) =>{
         auditoria.idusuario=req.id;
         await auditoria.save();
 
-        res.json({paises});
+        res.status(201).json({
+            ok: true,
+            paises
+        });
     } catch (error) {
         res.status(500).json({
             msg:'Hable con el administrador'

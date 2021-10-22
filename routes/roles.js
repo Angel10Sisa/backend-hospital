@@ -26,10 +26,10 @@ router.post('/',[
 ], crearRol);
 
 //Modificar Rol
-router.put('/:rol1',editarRol);
+router.put('/:id',editarRol);
 
 //Eliminar Rol
-router.delete('/:rol',[
+router.delete('/:id',[
     esAdminRol
 ], eliminarRol);
 

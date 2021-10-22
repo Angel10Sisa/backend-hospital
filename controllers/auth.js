@@ -65,7 +65,7 @@ const loginUsuario = async(req, res = response) => {
         const validPassword = bcrypt.compareSync(password, usuario.password);
         if (!validPassword) {
             return res.status(400).json({
-                ok: true,
+                ok: false,
                 msg: 'Password incorrecto'
             });
         }
@@ -74,15 +74,14 @@ const loginUsuario = async(req, res = response) => {
 
         res.json({
             ok: true,
-            uid: usuario.id,
+            id: usuario.id,
             name: usuario.name,
             token
         })
 
     } catch (error) {
-        console.log(error);
         res.status(500).json({
-            ok: true,
+            ok: false,
             msg: 'Hable con el administrador'
         });
     }
@@ -101,6 +100,8 @@ const revalidarToken = async (req, res = response) => {
 
     res.json({
         ok: true,
+        id,
+        name,
         token
     })
 }

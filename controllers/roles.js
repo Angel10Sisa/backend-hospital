@@ -67,24 +67,25 @@ const crearRol = async(req, res=response) =>{
 
 //Editar un Rol
 const editarRol = async(req, res=response) =>{
-    const { rol1 } = req.params;
-    const { rol, ...resto } = req.body;
+    const { id } = req.params;
     const auditoria= new AuditoriaSchema();
     try {
-        const roles = await RolSchema.findOne({where:{rol:rol1}});
+        let roles = await RolSchema.findByPk(id);
         if(!roles){
             return res.status(404).json({
                 msg: 'No existe un rol'
             });
         }
-        await roles.update(resto);
+        await roles.update(req.body);
         //Ingreso a la Auditoria
         auditoria.name='Editar Roles';
         auditoria.descripcion=`Se edito Rol ${roles.rol}`;
         auditoria.idusuario=req.id;
         await auditoria.save();
-
-        res.json({roles});
+        res.status(201).json({
+            ok: true,
+            roles
+        });
     } catch (error) {
         res.status(500).json({
             msg:'Hable con el administrador'
@@ -94,9 +95,9 @@ const editarRol = async(req, res=response) =>{
 
 //Eliminar un Rol
 const eliminarRol = async(req, res=response) =>{
-    const { rol } = req.params;
+    const { id } = req.params;
     const auditoria= new AuditoriaSchema();
-    const roles = await RolSchema.findOne({where: {rol:rol}});
+    let roles = await RolSchema.findByPk(id);
     if(!roles){
         return res.status(404).json({
             msg: 'No existe un rol'
