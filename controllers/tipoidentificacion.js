@@ -78,7 +78,10 @@ const editarTipoidentificacion = async (req, res= response) => {
         auditoria.idusuario=req.id;
         await auditoria.save();
 
-        res.json({tipoidentificaciones})
+        res.status(201).json({
+            ok: true,
+            tipoidentificaciones
+        });
     } catch (error) {
         res.status(500).json({
             msg:'Hable con el administrador'

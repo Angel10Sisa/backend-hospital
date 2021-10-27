@@ -91,7 +91,10 @@ const editarEstadocivil = async (req, res=response) => {
         auditoria.descripcion=`Se edito Estado Civil ${estadociviles.estadocivil}`;
         auditoria.idusuario=req.id;
         await auditoria.save();
-        res.json({estadociviles})
+        res.status(201).json({
+            ok: true,
+            estadociviles
+        });
         
     } catch (error) {
         res.status(500).json({
