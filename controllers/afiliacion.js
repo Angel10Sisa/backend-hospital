@@ -131,7 +131,10 @@ const editarAfiliacion = async(req, res=response) => {
         auditoria.descripcion=`Se edito Afiliación ${afiliaciones.afiliacion}`;
         auditoria.idusuario=req.id;
         await auditoria.save();
-        res.json({afiliaciones})
+        res.status(201).json({
+            ok: true,
+            afiliaciones
+        });
 
     } catch (error) {
         res.status(500).json({

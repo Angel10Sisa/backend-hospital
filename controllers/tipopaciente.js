@@ -91,8 +91,10 @@ const editarTipopaciente = async (req, res=response) =>{
         auditoria.descripcion=`Se edito Tipo Paciente ${tipopacientes.tipopaciente}`;
         auditoria.idusuario=req.id;
         await auditoria.save();
-        res.json({tipopacientes})
-
+        res.status(201).json({
+            ok: true,
+            tipopacientes
+        });
     } catch (error) {
         res.status(500).json({
             msg:'Hable con el administrador'
