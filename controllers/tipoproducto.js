@@ -91,7 +91,10 @@ const editarTipoproducto = async ( req, res=response)=>{
         auditoria.descripcion=`Se edito Tipo Producto ${tipoproductos.tipoproducto}`;
         auditoria.idusuario=req.id;
         await auditoria.save();
-        res.json({tipoproductos})
+        res.status(201).json({
+            ok: true,
+            tipoproductos
+        });
 
     } catch (error) {
         res.status(500).json({
@@ -114,7 +117,7 @@ const eliminarTipoproducto = async ( req, res=response)=>{
         await tipoproductos.destroy();
         //Ingreso a la Auditoria
         auditoria.name='Eliminar Tipo Producto';
-        auditoria.descripcion=`Se elimino Tipo Product ${tipoproductos.tipoproducto}`;
+        auditoria.descripcion=`Se elimino Tipo Producto ${tipoproductos.tipoproducto}`;
         auditoria.idusuario=req.id;
         await auditoria.save();
         res.status(201).json({
