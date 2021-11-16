@@ -91,7 +91,10 @@ const editarConcepto = async(req, res=response)=>{
         auditoria.descripcion=`Se edito Conceptos ${conceptos.concepto}`;
         auditoria.idusuario=req.id;
         await auditoria.save();
-        res.json({conceptos})
+        res.status(201).json({
+            ok: true,
+            conceptos
+        });
 
     } catch (error) {
         res.status(500).json({
