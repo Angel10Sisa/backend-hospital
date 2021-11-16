@@ -91,8 +91,10 @@ const editarFormapago = async ( req, res=response ) => {
         auditoria.descripcion=`Se edito Forma Pago ${formapagos.formapago}`;
         auditoria.idusuario=req.id;
         await auditoria.save();
-        res.json({formapagos})
-
+        res.status(201).json({
+            ok: true,
+            formapagos
+        });
     } catch (error) {
         res.status(500).json({
             msg:'Hable con el administrador'
