@@ -1,6 +1,21 @@
 const response = require ('express');
 const { AuditoriaSchema } = require('../models/Auditoria');
 const { RolSchema } = require('../models/Rol');
+const Sequelize = require ('sequelize');
+const Op=Sequelize.Op;
+
+//Listar Roles
+const getRolContar = async(req, res=response) =>{
+    const roles = await RolSchema.count();
+    if(roles){
+        res.json({roles});
+    }else{
+        res.status(201).json({
+            ok: false,
+            msg: 'No existen Datos que mostrar'
+        })
+    }
+}
 
 //Listar Roles
 const getRoles = async(req, res=response) =>{
@@ -16,13 +31,27 @@ const getRoles = async(req, res=response) =>{
     }
 }
 
-//Obtener un Rol
-const getRol = async(req, res=response) =>{
+//Listar Roles Busqueda
+const getRolesB = async(req, res=response) =>{
     const { rol } = req.params;
-    const roles = await RolSchema.findOne({where:{rol:rol}});
+    const roles = await RolSchema.findAll({where:{[Op.or]:[{rol:{[Op.like]:'%'+rol+'%'}},{descripcion:{[Op.like]:'%'+rol+'%'}}]}});
     if(roles){
         res.json({roles});
 
+    }else{
+        res.status(201).json({
+            ok: false,
+            msg: 'No existen Datos que mostrar'
+        })
+    }
+}
+
+//Obtener un Rol
+const getRol = async(req, res=response) =>{
+    const { id } = req.params;
+    const roles = await RolSchema.findByPk(id);
+    if(roles){
+        res.json({roles});
     }else{
         res.status(201).json({
             ok: false,
@@ -117,7 +146,9 @@ const eliminarRol = async(req, res=response) =>{
 }
 
 module.exports = {
+    getRolContar,
     getRoles,
+    getRolesB,
     getRol,
     crearRol,
     editarRol,
