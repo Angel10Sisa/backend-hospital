@@ -4,24 +4,30 @@
 */
 const { Router } = require('express');
 const { check } = require('express-validator');
-const { getAfiliaciones, getAfiliacion, crearAfiliacion, editarAfiliacion, eliminarAfiliacion, getAfiliacionT, getAfiliacionF } = require('../controllers/afiliacion');
+const { getAfiliaciones, getAfiliacion, crearAfiliacion, editarAfiliacion, eliminarAfiliacion, getAfiliacionT, getAfiliacionF, getAfiliacionB, getAfiliacionContar } = require('../controllers/afiliacion');
 const { validarJWT, validarCampos } = require('../middlewares');
 const router=Router();
 
 //Todas tienen que pasar por la validacion de JWT
 router.use(validarJWT);
 
+//Contar Afiliacion
+router.get('/contar/', getAfiliacionContar);
+
+//Obtener Afiliacion
+router.get('/:afiliacion', getAfiliacionB);
+
 //Listar Afiliacion
 router.get('/',getAfiliaciones);
 
 //Obtener Afiliacion True
-router.get('/true',getAfiliacionT);
+router.get('/true/true',getAfiliacionT);
 
 //Obtener Afiliacion False
-router.get('/false',getAfiliacionF);
+router.get('/false/false',getAfiliacionF);
 
 //Obtener Afiliacion
-router.get('/:id',getAfiliacion);
+router.get('/id/:id',getAfiliacion);
 
 //Ingresar Afiliacion
 router.post('/',[

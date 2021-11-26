@@ -1,6 +1,36 @@
 const  response  = require("express");
 const { AuditoriaSchema } = require("../models/Auditoria");
 const { AfiliacionSchema } = require("../models/Afiliacion");
+const Sequelize = require ('sequelize');
+const Op=Sequelize.Op;
+
+//Contar Afiliaciones
+const getAfiliacionContar = async(req, res=response) =>{
+    const afiliaciones = await AfiliacionSchema.count();
+    if(afiliaciones){
+        res.json({afiliaciones});
+    }else{
+        res.status(201).json({
+            ok: false,
+            msg: 'No existen Datos que mostrar'
+        })
+    }
+}
+
+//Listar Afiliacion Busqueda
+const getAfiliacionB = async(req, res=response) =>{
+    const { afiliacion } = req.params;
+    const afiliaciones = await AfiliacionSchema.findAll({where:{afiliacion:{[Op.like]:'%'+afiliacion+'%'}}});
+    if(afiliaciones){
+        res.json({afiliaciones});
+
+    }else{
+        res.status(201).json({
+            ok: false,
+            msg: 'No existen Datos que mostrar'
+        })
+    }
+}
 
 //Listar Afiliacion
 const getAfiliaciones = async(req, res=response) => {
@@ -172,6 +202,8 @@ const eliminarAfiliacion = async(req, res=response) => {
 }
 
 module.exports = {
+    getAfiliacionContar,
+    getAfiliacionB,
     getAfiliaciones,
     getAfiliacionT,
     getAfiliacionF,
