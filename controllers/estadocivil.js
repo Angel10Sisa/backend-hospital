@@ -1,6 +1,36 @@
 const  response  = require ('express');
 const { AuditoriaSchema } = require('../models/Auditoria');
 const { EstadocivilSchema } = require('../models/Estadocivil');
+const Sequelize = require ('sequelize');
+const Op=Sequelize.Op;
+
+//Contar Estado Civil 
+const getEstadoscivilesContar = async(req, res=response) =>{
+    const estadociviles = await EstadocivilSchema.count();
+    if(estadociviles){
+        res.json({estadociviles});
+    }else{
+        res.status(201).json({
+            ok: false,
+            msg: 'No existen Datos que mostrar'
+        })
+    }
+}
+
+//Listar Estado Civil Busqueda
+const getEstadoscivilesB = async(req, res=response) =>{
+    const { estadocivil } = req.params;
+    const estadosciviles = await EstadocivilSchema.findAll({where:{estadocivil:{[Op.like]:'%'+estadocivil+'%'}}});
+    if(estadosciviles){
+        res.json({estadosciviles});
+
+    }else{
+        res.status(201).json({
+            ok: false,
+            msg: 'No existen Datos que mostrar'
+        })
+    }
+}
 
 // Listar Estado Civil
 const getEstadosciviles = async (req, res=response) => {
@@ -132,6 +162,8 @@ const eliminarEstadocivil = async (req, res=response) => {
 }
 
 module.exports = {
+    getEstadoscivilesContar,
+    getEstadoscivilesB,
     getEstadosciviles,
     getEstadocivil,
     crearEstadocivil,

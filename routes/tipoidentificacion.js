@@ -12,7 +12,7 @@ const router = Router();
 //Todas tienen que pasar por la validacion de JWT
 router.use(validarJWT);
 
-//Obtener Tipoidentificaciones
+//Contar Tipoidentificaciones
 router.get('/contar/', getTipoidentificacionesContar);
 
 //Obtener Tipoidentificaciones

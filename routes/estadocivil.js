@@ -1,17 +1,22 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
-const { getEstadosciviles, getEstadocivil, crearEstadocivil, editarEstadocivil, eliminarEstadocivil } = require('../controllers/estadocivil');
+const { getEstadosciviles, getEstadocivil, crearEstadocivil, editarEstadocivil, eliminarEstadocivil, getEstadoscivilesContar, getEstadoscivilesB } = require('../controllers/estadocivil');
 const { validarJWT, validarCampos } = require('../middlewares');
 const router=Router();
 
 //Todas tienen que pasar por la validacion de JWT
 router.use(validarJWT);
 
+//Contar Tipoidentificaciones
+router.get('/contar/', getEstadoscivilesContar);
+
+//Obtener Tipoidentificaciones
+router.get('/:estadocivil', getEstadoscivilesB);
 //Obtener EstadosCiviles
 router.get('/',getEstadosciviles);
 
 //Obtener Estado Civil
-router.get('/:id',getEstadocivil);
+router.get('/id/:id',getEstadocivil);
 
 //Ingresar Estado Civil
 router.post('/',[
