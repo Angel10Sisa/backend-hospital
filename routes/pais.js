@@ -4,18 +4,24 @@
 */
 const {Router} = require ('express');
 const { check } = require('express-validator');
-const { getPaises, getPais, crearPais, editarPais, eliminarPais } = require('../controllers/pais');
+const { getPaises, getPais, crearPais, editarPais, eliminarPais, getPaisContar, getPaisB } = require('../controllers/pais');
 const { validarJWT, validarCampos } = require('../middlewares');
 const router = Router();
 
 //Todas tienen que pasar por la validación de JWT
 router.use(validarJWT);
 
+//Obtener Contar
+router.get('/contar/', getPaisContar);
+
+//Obtener Roles
+router.get('/:pais', getPaisB);
+
 //Obtener Paises
 router.get('/',getPaises);
 
 //Obtener un Pais
-router.get('/:id',getPais);
+router.get('/id/:id',getPais);
 
 //Ingresar un Pais
 router.post('/',[

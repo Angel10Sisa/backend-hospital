@@ -1,6 +1,36 @@
 const response = require('express');
 const { AuditoriaSchema } = require('../models/Auditoria');
 const { PaisSchema }= require('../models/Pais');
+const Sequelize = require ('sequelize');
+const Op=Sequelize.Op;
+
+//Contar Paises 
+const getPaisContar = async(req, res=response) =>{
+    const paises = await PaisSchema.count();
+    if(paises){
+        res.json({paises});
+    }else{
+        res.status(201).json({
+            ok: false,
+            msg: 'No existen Datos que mostrar'
+        })
+    }
+}
+
+//Listar Pais Busqueda
+const getPaisB = async(req, res=response) =>{
+    const { pais } = req.params;
+    const paises = await PaisSchema.findAll({where:{pais:{[Op.like]:'%'+pais+'%'}}});
+    if(paises){
+        res.json({paises});
+
+    }else{
+        res.status(201).json({
+            ok: false,
+            msg: 'No existen Datos que mostrar'
+        })
+    }
+}
 
 //Listar Paises
 const getPaises = async(req, res=response) =>{
@@ -127,6 +157,8 @@ const eliminarPais = async (req, res=response) =>{
 }
 
 module.exports = {
+    getPaisContar,
+    getPaisB,
     getPaises,
     getPais,
     crearPais,
