@@ -1,6 +1,36 @@
 const response = require ('express');
 const { AuditoriaSchema } = require('../models/Auditoria');
 const { TipopacienteSchema } = require('../models/Tipopaciente');
+const Sequelize = require ('sequelize');
+const Op=Sequelize.Op;
+
+//Contar Tipo Paciente
+const getTipopacienteContar = async(req, res=response) =>{
+    const tipopacientes = await TipopacienteSchema.count();
+    if(tipopacientes){
+        res.json({tipopacientes});
+    }else{
+        res.status(201).json({
+            ok: false,
+            msg: 'No existen Datos que mostrar'
+        })
+    }
+}
+
+//Listar Tipo Paciente Busqueda
+const getTipopacienteB = async(req, res=response) =>{
+    const { tipopaciente } = req.params;
+    const tipopacientes = await TipopacienteSchema.findAll({where:{tipopaciente:{[Op.like]:'%'+tipopaciente+'%'}}});
+    if(tipopacientes){
+        res.json({tipopacientes});
+
+    }else{
+        res.status(201).json({
+            ok: false,
+            msg: 'No existen Datos que mostrar'
+        })
+    }
+}
 
 //Listar Tipo Paciente
 const getTipospacientes = async (req, res=response) =>{
@@ -132,6 +162,8 @@ const eliminarTipopaciente = async (req, res=response) =>{
 
 
 module.exports = {
+    getTipopacienteContar,
+    getTipopacienteB,
     getTipospacientes,
     getTipopaciente,
     crearTipopaciente,
