@@ -1,6 +1,36 @@
 const  response  = require ('express');
 const { AuditoriaSchema } = require('../models/Auditoria');
 const { SexoSchema } = require('../models/Sexo');
+const Sequelize = require ('sequelize');
+const Op=Sequelize.Op;
+
+//Contar Sexo
+const getSexoContar = async(req, res=response) =>{
+    const sexos = await SexoSchema.count();
+    if(sexos){
+        res.json({sexos});
+    }else{
+        res.status(201).json({
+            ok: false,
+            msg: 'No existen Datos que mostrar'
+        })
+    }
+}
+
+//Listar Estado Civil Busqueda
+const getSexoB = async(req, res=response) =>{
+    const { sexo } = req.params;
+    const sexos = await SexoSchema.findAll({where:{sexo:{[Op.like]:'%'+sexo+'%'}}});
+    if(sexos){
+        res.json({sexos});
+
+    }else{
+        res.status(201).json({
+            ok: false,
+            msg: 'No existen Datos que mostrar'
+        })
+    }
+}
 
 // Listar Sexo
 const getSexos = async (req, res= response) => {
@@ -132,6 +162,8 @@ const eliminarSexo = async (req, res= response) => {
 }
 
 module.exports = {
+    getSexoContar,
+    getSexoB,
     getSexos,
     getSexo,
     crearSexo,
