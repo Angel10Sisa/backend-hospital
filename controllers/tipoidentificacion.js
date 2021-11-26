@@ -1,6 +1,36 @@
 const  response  = require ('express');
 const { AuditoriaSchema } = require('../models/Auditoria');
 const { TipoidentificacionSchema } = require('../models/TipoIdentificacion');
+const Sequelize = require ('sequelize');
+const Op=Sequelize.Op;
+
+//Contar Tipo Identificacion  
+const getTipoidentificacionesContar = async(req, res=response) =>{
+    const tipoidentificaciones = await TipoidentificacionSchema.count();
+    if(tipoidentificaciones){
+        res.json({tipoidentificaciones});
+    }else{
+        res.status(201).json({
+            ok: false,
+            msg: 'No existen Datos que mostrar'
+        })
+    }
+}
+
+//Listar Tipo Identificacion Busqueda
+const getTipoidentificacionesB = async(req, res=response) =>{
+    const { tipo } = req.params;
+    const tipoidentificaciones = await TipoidentificacionSchema.findAll({where:{tipo:{[Op.like]:'%'+tipo+'%'}}});
+    if(tipoidentificaciones){
+        res.json({tipoidentificaciones});
+
+    }else{
+        res.status(201).json({
+            ok: false,
+            msg: 'No existen Datos que mostrar'
+        })
+    }
+}
 
 //Listar Tipo Identificacion
 const getTipoidentificaciones = async (req, res= response) => {
@@ -65,7 +95,7 @@ const editarTipoidentificacion = async (req, res= response) => {
     const { id } = req.params;
     const auditoria = new AuditoriaSchema();
     try {
-        let tipoidentificaciones = await TipoidentificacionSchema.findOne({where:{id:id}});
+        let tipoidentificaciones = await TipoidentificacionSchema.findByPk(id);
         if(!tipoidentificaciones){
             return res.status(404).json({
                 msg: 'No existe Tipo Identificación'
@@ -116,6 +146,8 @@ const eliminarTipoidentificacion = async (req, res= response) => {
 }
 
 module.exports = {
+    getTipoidentificacionesContar,
+    getTipoidentificacionesB,
     getTipoidentificaciones,
     getTipoidentificacion,
     crearTipoidentificacion,

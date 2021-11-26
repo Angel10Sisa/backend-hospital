@@ -5,7 +5,7 @@
 
 const { Router } = require('express');
 const { check } = require('express-validator');
-const { getTipoidentificaciones, getTipoidentificacion, crearTipoidentificacion, editarTipoidentificacion, eliminarTipoidentificacion } = require('../controllers/tipoidentificacion');
+const { getTipoidentificaciones, getTipoidentificacion, crearTipoidentificacion, editarTipoidentificacion, eliminarTipoidentificacion, getTipoidentificacionesContar, getTipoidentificacionesB } = require('../controllers/tipoidentificacion');
 const { validarJWT, validarCampos } = require('../middlewares');
 const router = Router();
 
@@ -13,10 +13,16 @@ const router = Router();
 router.use(validarJWT);
 
 //Obtener Tipoidentificaciones
+router.get('/contar/', getTipoidentificacionesContar);
+
+//Obtener Tipoidentificaciones
+router.get('/:tipo', getTipoidentificacionesB);
+
+//Obtener Tipoidentificaciones
 router.get('/',getTipoidentificaciones);
 
 //Obtener Tipoidentificaciones
-router.get('/:id',getTipoidentificacion);
+router.get('/id/:id',getTipoidentificacion);
 
 //Ingresar Tipoidentificaciones
 router.post('/',[
