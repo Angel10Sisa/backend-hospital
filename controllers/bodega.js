@@ -1,6 +1,36 @@
 const response = require ('express');
 const { AuditoriaSchema } = require('../models/Auditoria');
 const { BodegaSchema } = require('../models/Bodega');
+const Sequelize = require ('sequelize');
+const Op=Sequelize.Op;
+
+//Contar Bodegas
+const getBodegaContar = async(req, res=response) =>{
+    const bodegas = await BodegaSchema.count();
+    if(bodegas){
+        res.json({bodegas});
+    }else{
+        res.status(201).json({
+            ok: false,
+            msg: 'No existen Datos que mostrar'
+        })
+    }
+}
+
+//Listar Bodegas Busqueda
+const getBodegaB = async(req, res=response) =>{
+    const { bodega } = req.params;
+    const bodegas = await BodegaSchema.findAll({where:{[Op.or]:[{nombre:{[Op.like]:'%'+bodega+'%'}},{sede:{[Op.like]:'%'+bodega+'%'}}]}});
+    if(bodegas){
+        res.json({bodegas});
+
+    }else{
+        res.status(201).json({
+            ok: false,
+            msg: 'No existen Datos que mostrar'
+        })
+    }
+}
 
 //Listar Bodega
 const getBodegas = async ( req, res= response)=>{
@@ -172,6 +202,8 @@ const eliminarBodega = async ( req, res= response)=>{
 }
 
 module.exports={
+    getBodegaContar,
+    getBodegaB,
     getBodegas,
     getBodegasT,
     getBodegasF,
