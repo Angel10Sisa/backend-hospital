@@ -4,18 +4,24 @@
 */
 const { Router } = require('express');
 const { check } = require('express-validator');
-const { getConceptos, getConcepto, crearConcepto, editarConcepto, eliminarConcepto } = require('../controllers/concepto');
+const { getConceptos, getConcepto, crearConcepto, editarConcepto, eliminarConcepto, getConceptoContar, getConceptoB } = require('../controllers/concepto');
 const { validarJWT, validarCampos } = require('../middlewares');
 const router=Router();
 
 //Todas tienen que pasar por la validacion de JWT
 router.use(validarJWT);
 
+//Contar Conceptos
+router.get('/contar/', getConceptoContar);
+
+//Obtener Conceptos
+router.get('/:concepto', getConceptoB);
+
 //Obtener Conceptos
 router.get('/',getConceptos);
 
 //Obtener Concepto
-router.get('/:id',getConcepto);
+router.get('/id/:id',getConcepto);
 
 //Ingresar Concepto
 router.post('/',[

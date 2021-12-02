@@ -1,6 +1,36 @@
 const response = require ('express');
 const { AuditoriaSchema } = require('../models/Auditoria');
 const { ConceptoSchema } = require('../models/Concepto');
+const Sequelize = require ('sequelize');
+const Op=Sequelize.Op;
+
+//Contar Concepto
+const getConceptoContar = async(req, res=response) =>{
+    const conceptos = await ConceptoSchema.count();
+    if(conceptos){
+        res.json({conceptos});
+    }else{
+        res.status(201).json({
+            ok: false,
+            msg: 'No existen Datos que mostrar'
+        })
+    }
+}
+
+//Listar Concepto Busqueda
+const getConceptoB = async(req, res=response) =>{
+    const { concepto } = req.params;
+    const conceptos = await ConceptoSchema.findAll({where:{concepto:{[Op.like]:'%'+concepto+'%'}}});
+    if(conceptos){
+        res.json({conceptos});
+
+    }else{
+        res.status(201).json({
+            ok: false,
+            msg: 'No existen Datos que mostrar'
+        })
+    }
+}
 
 //Listar Concepto
 const getConceptos = async(req, res=response)=>{
@@ -132,6 +162,8 @@ const eliminarConcepto = async(req, res=response)=>{
 }
 
 module.exports = {
+    getConceptoContar,
+    getConceptoB,
     getConceptos,
     getConcepto,
     crearConcepto,
