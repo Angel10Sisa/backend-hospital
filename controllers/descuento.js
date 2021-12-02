@@ -5,7 +5,7 @@ const { AuditoriaSchema } = require('../models/Auditoria');
 //Listar Descuento
 const getDescuentos = async(req, res = response) => {
     try {
-        const descuentos = await DescuentoSchema.findAll();
+        const descuentos = await DescuentoSchema.findAll({order:['id']});
         if(descuentos){
             res.json({descuentos})
         }else{

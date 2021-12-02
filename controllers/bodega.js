@@ -35,7 +35,7 @@ const getBodegaB = async(req, res=response) =>{
 //Listar Bodega
 const getBodegas = async ( req, res= response)=>{
     try {
-        const bodegas = await BodegaSchema.findAll();
+        const bodegas = await BodegaSchema.findAll({order:['id']});
         if(bodegas){
             res.json({bodegas})
         }else{

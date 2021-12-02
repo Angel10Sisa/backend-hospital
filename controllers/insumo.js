@@ -7,7 +7,7 @@ const { ProductoSchema } = require('../models/Producto');
 //Listar Insumos
 const getInsumos = async ( req, res = response ) => {
     try {
-        const insumos = await InsumoSchema.findAll();
+        const insumos = await InsumoSchema.findAll({order:['id']});
         if(insumos){
             res.json({insumos})
         }else{

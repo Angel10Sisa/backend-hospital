@@ -5,7 +5,7 @@ const { IvaSchema } = require('../models/Iva');
 // Listar Iva
 const getIvas = async (req, res=response)=>{
     try {
-        const ivas = await IvaSchema.findAll();
+        const ivas = await IvaSchema.findAll({order:['id']});
         if(ivas){
             res.json({ivas})
         }else{

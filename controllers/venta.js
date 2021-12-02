@@ -6,7 +6,7 @@ const { VentaSchema } = require('../models/Venta');
 //Listar Ventas
 const getVentas = async ( req, res = response) => {
     try {
-        const ventas = await VentaSchema.findAll();
+        const ventas = await VentaSchema.findAll({order:['id']});
         if(ventas){
             res.json({ventas})
         }else{

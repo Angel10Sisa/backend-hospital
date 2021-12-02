@@ -5,7 +5,7 @@ const { FormapagoSchema } = require('../models/Formapago');
 //Listar Formapago
 const getFormaspagos = async ( req, res=response ) => {
     try {
-        const formapagos = await FormapagoSchema.findAll();
+        const formapagos = await FormapagoSchema.findAll({order:['id']});
         if(formapagos){
             res.json({formapagos})
         }else{

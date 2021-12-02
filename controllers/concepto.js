@@ -5,7 +5,7 @@ const { ConceptoSchema } = require('../models/Concepto');
 //Listar Concepto
 const getConceptos = async(req, res=response)=>{
     try {
-        const conceptos = await ConceptoSchema.findAll();
+        const conceptos = await ConceptoSchema.findAll({order:['id']});
         if(conceptos){
             res.json({conceptos})
         }else{

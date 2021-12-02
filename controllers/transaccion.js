@@ -6,7 +6,7 @@ const { TransaccionSchema } = require('../models/Transaccion');
 //Listar todas las Transacciones
 const getTransacciones = async ( req, res=response) =>{
     try {
-        const transacciones = await TransaccionSchema.findAll();
+        const transacciones = await TransaccionSchema.findAll({order:['id']});
         if(transacciones){
             res.json({transacciones})
         }else{

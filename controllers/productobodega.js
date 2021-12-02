@@ -7,7 +7,7 @@ const { ProductobodegaSchema } = require('../models/Productobodega');
 // Listar Producto Bodegas
 const getProductobodegas = async ( req, res = response) => {
     try {
-        const productobodegas = await ProductobodegaSchema.findAll();
+        const productobodegas = await ProductobodegaSchema.findAll({order:['id']});
         if(productobodegas){
             res.json({productobodegas})
         }else{

@@ -35,7 +35,7 @@ const getSexoB = async(req, res=response) =>{
 // Listar Sexo
 const getSexos = async (req, res= response) => {
     try {
-        const sexos = await SexoSchema.findAll();
+        const sexos = await SexoSchema.findAll({order:['id']});
         if(sexos){
             res.json({sexos})
         }else{

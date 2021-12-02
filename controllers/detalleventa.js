@@ -8,7 +8,7 @@ const { VentaSchema } = require('../models/Venta');
 //Listar Detalle venta
 const getDetalleventas = async ( req, res = response ) => {
     try {
-        const detallesventas = await DetalleventaSchema.findAll();
+        const detallesventas = await DetalleventaSchema.findAll({order:['id']});
         if(detallesventas){
             res.json({detallesventas})
         }else{

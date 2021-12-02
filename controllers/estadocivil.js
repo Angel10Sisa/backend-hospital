@@ -35,7 +35,7 @@ const getEstadoscivilesB = async(req, res=response) =>{
 // Listar Estado Civil
 const getEstadosciviles = async (req, res=response) => {
     try {
-        const estadociviles = await EstadocivilSchema.findAll();
+        const estadociviles = await EstadocivilSchema.findAll({order:['id']});
         if(estadociviles){
             res.json({estadociviles})
         }else{

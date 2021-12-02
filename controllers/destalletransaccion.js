@@ -8,7 +8,7 @@ const { TransaccionSchema } = require('../models/Transaccion');
 //Lista Detalle Transacciones
 const getDetalletransacciones = async (req, res = response ) => {
     try {
-        const detalletransacciones = await DetalletransaccionSchema.findAll();
+        const detalletransacciones = await DetalletransaccionSchema.findAll({order:['id']});
         if(detalletransacciones){
             res.json({detalletransacciones})
         }else{

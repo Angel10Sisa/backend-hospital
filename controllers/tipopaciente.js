@@ -35,7 +35,7 @@ const getTipopacienteB = async(req, res=response) =>{
 //Listar Tipo Paciente
 const getTipospacientes = async (req, res=response) =>{
     try {
-        const tipopacientes = await TipopacienteSchema.findAll();
+        const tipopacientes = await TipopacienteSchema.findAll({order:['id']});
         if(tipopacientes){
             res.json({tipopacientes})
         }else{

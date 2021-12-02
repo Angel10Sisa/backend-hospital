@@ -7,7 +7,7 @@ const { ProveedorSchema } = require('../models/Proveedor');
 //Listar Compras
 const getCompras = async (req, res=response) =>{
     try {
-        const compras = await CompraSchema.findAll();
+        const compras = await CompraSchema.findAll({order:['id']});
         if(compras){
             res.json({compras})
         }else{

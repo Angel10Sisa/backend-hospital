@@ -34,7 +34,7 @@ const getPaisB = async(req, res=response) =>{
 
 //Listar Paises
 const getPaises = async(req, res=response) =>{
-    const paises= await PaisSchema.findAll();
+    const paises= await PaisSchema.findAll({order:['id']});
     if(paises){
         res.json({paises});
     }else{

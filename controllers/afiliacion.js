@@ -35,7 +35,7 @@ const getAfiliacionB = async(req, res=response) =>{
 //Listar Afiliacion
 const getAfiliaciones = async(req, res=response) => {
     try {
-        const afiliaciones = await AfiliacionSchema.findAll();
+        const afiliaciones = await AfiliacionSchema.findAll({order:['id']});
         if(afiliaciones){
             res.json({afiliaciones})
         }else{

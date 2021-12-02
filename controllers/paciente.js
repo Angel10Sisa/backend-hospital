@@ -6,7 +6,7 @@ const { PacienteSchema } = require('../models/Paciente');
 //Listar Paciente
 const getPacientes = async (req, res=response) => {
     try {
-        const pacientes = await PacienteSchema.findAll();
+        const pacientes = await PacienteSchema.findAll({order:['id']});
         if(pacientes){
             res.json({pacientes})
         }else{

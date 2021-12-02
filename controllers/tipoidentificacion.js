@@ -34,7 +34,7 @@ const getTipoidentificacionesB = async(req, res=response) =>{
 
 //Listar Tipo Identificacion
 const getTipoidentificaciones = async (req, res= response) => {
-    const tipoidentificaciones = await TipoidentificacionSchema.findAll();
+    const tipoidentificaciones = await TipoidentificacionSchema.findAll({order:['id']});
     if(tipoidentificaciones){
         res.json({tipoidentificaciones});
     }else{

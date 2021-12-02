@@ -23,7 +23,7 @@ const crearAuditoria = async(req, res=response) =>{
 
 //Listar Auditoria
 const getAuditoria = async(req, res=response) =>{
-    const auditoria = await AuditoriaSchema.findAll();
+    const auditoria = await AuditoriaSchema.findAll({order:['id']});
     if(auditoria){
         res.json({auditoria});
     }else{
