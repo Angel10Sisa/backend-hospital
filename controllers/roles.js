@@ -19,7 +19,7 @@ const getRolContar = async(req, res=response) =>{
 
 //Listar Roles
 const getRoles = async(req, res=response) =>{
-    const roles = await RolSchema.findAll();
+    const roles = await RolSchema.findAll({order:['id']});
     if(roles){
         res.json({roles});
 
