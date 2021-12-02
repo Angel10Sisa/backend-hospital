@@ -1,6 +1,37 @@
 const response = require ('express');
 const { AuditoriaSchema } = require('../models/Auditoria');
 const { TipoproductoSchema } = require('../models/Tipoproducto');
+const Sequelize = require ('sequelize');
+const Op=Sequelize.Op;
+
+
+//Contar Tipo Producto  
+const getTipoProductoContar = async(req, res=response) =>{
+    const tipoproductos = await TipoproductoSchema.count();
+    if(tipoproductos){
+        res.json({tipoproductos});
+    }else{
+        res.status(201).json({
+            ok: false,
+            msg: 'No existen Datos que mostrar'
+        })
+    }
+}
+
+//Listar Tipo Producto Busqueda
+const getTipoProductoB = async(req, res=response) =>{
+    const { tipo } = req.params;
+    const tipoproductos = await TipoproductoSchema.findAll({where:{tipoproducto:{[Op.like]:'%'+tipo+'%'}}});
+    if(tipoproductos){
+        res.json({tipoproductos});
+
+    }else{
+        res.status(201).json({
+            ok: false,
+            msg: 'No existen Datos que mostrar'
+        })
+    }
+}
 
 //Listar Tipoproducto
 const getTipoproductos = async ( req, res=response)=>{
@@ -132,6 +163,8 @@ const eliminarTipoproducto = async ( req, res=response)=>{
 }
 
 module.exports ={
+    getTipoProductoContar,
+    getTipoProductoB,
     getTipoproductos,
     getTipoproducto,
     crearTipoproducto,
