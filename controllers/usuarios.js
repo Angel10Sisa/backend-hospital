@@ -4,6 +4,36 @@ const { UsuarioSchema } = require('../models/Usuario');
 const { generarJWT } = require('../helpers/jwt');
 const { RolSchema } = require('../models/Rol');
 const { AuditoriaSchema } = require('../models/Auditoria');
+const Sequelize = require ('sequelize');
+const Op=Sequelize.Op;
+
+//Contar Usuarios
+const getUsuarioContar = async(req, res=response) =>{
+    const usuarios = await UsuarioSchema.count();
+    if(usuarios){
+        res.json({usuarios});
+    }else{
+        res.status(201).json({
+            ok: false,
+            msg: 'No existen Datos que mostrar'
+        })
+    }
+}
+
+//Listar Usuarios Busqueda
+const getUsuarioB = async(req, res=response) =>{
+    const { usuario } = req.params;
+    const usuarios = await UsuarioSchema.findAll({where:{[Op.or]:[{name:{[Op.like]:'%'+usuario+'%'}},{email:{[Op.like]:'%'+usuario+'%'}}]}});
+    if(usuarios){
+        res.json({usuarios});
+
+    }else{
+        res.status(201).json({
+            ok: false,
+            msg: 'No existen Datos que mostrar'
+        })
+    }
+}
 
 // Listar Usuario
 const getUsuarios = async (req, res=response) => {
@@ -80,11 +110,11 @@ const getUsuario = async (req, res=response) => {
 
 // Ingreso de Usuario
 const crearUsuarios = async(req, res = response) => {
-    const { email, password } = req.body;
+    const { password } = req.body;
     const auditoria = new AuditoriaSchema();
 
     try {
-        let usuario = new UsuarioSchema(req.body);
+        const usuario = new UsuarioSchema(req.body);
         
         //Encriptar contraseña
         const salt = bcrypt.genSaltSync();
@@ -105,6 +135,36 @@ const crearUsuarios = async(req, res = response) => {
             id: usuario.id,
             name: usuario.name,
             token
+        });
+
+    } catch (error) {    
+        console.log(error); 
+        res.status(500).json({
+            ok: false,
+            msg: 'Hable con el administrador'
+        });
+    }
+}
+
+// Editar Password de Usuario
+const modificarPasswordUsuarios = async(req, res = response) => {
+    const { id } = req.params;
+    const { body } = req;
+
+    try {
+        const usuario = await UsuarioSchema.findByPk(id);
+        if(!usuario){
+            return res.status(404).json({
+                msg: 'No existe un usuario con el id'
+            });
+        }
+        //Encriptar contraseña
+        const salt = bcrypt.genSaltSync();
+        pass = bcrypt.hashSync(body.password, salt);
+        await usuario.update({password: pass});
+        res.status(201).json({
+            ok: true,
+            password: usuario.password
         });
 
     } catch (error) {    
@@ -147,7 +207,7 @@ const eliminarUsuarios = async (req, res=response) => {
         await usuario.update({estado: false}); //Edita elestado de true a false
         //Ingreso a la Auditoria
         auditoria.name='Eliminar Usuarios';
-        auditoria.descripcion='Se cambio el estado del usuario';
+        auditoria.descripcion=`Se cambio el estado del usuario ${usuario.nombre}`;
         auditoria.idusuario=req.id;
         await auditoria.save();
         res.status(201).json({
@@ -157,6 +217,9 @@ const eliminarUsuarios = async (req, res=response) => {
 }
 
 module.exports = {
+    modificarPasswordUsuarios,
+    getUsuarioContar,
+    getUsuarioB,
     getUsuarios,
     getUsuarioT,
     getUsuarioF,

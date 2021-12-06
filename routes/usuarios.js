@@ -9,24 +9,30 @@ const {
     validarJWT,
     esAdminRol
 } = require ('../middlewares');
-const { getUsuarios, getUsuario, crearUsuarios, editarUsuarios, eliminarUsuarios, getUsuarioT, getUsuarioF} = require('../controllers/usuarios');
+const { getUsuarios, getUsuario, crearUsuarios, editarUsuarios, eliminarUsuarios, getUsuarioT, getUsuarioF, getUsuarioContar, getUsuarioB, modificarPasswordUsuarios} = require('../controllers/usuarios');
 const { esRolValido, emailExiste, existeUsuarioId } = require('../helpers/db.validator');
 const router=Router();
 
 //Todas tienen que pasar por la validación del JWT
 router.use(validarJWT);
 
+//Contar Usuarios
+router.get('/contar/', getUsuarioContar);
+
+//Obtener Usuarios
+router.get('/:usuario', getUsuarioB);
+
 //Obtener Usuarios
 router.get('/', getUsuarios);
 
 //Obtener Usuarios True
-router.get('/true',getUsuarioT);
+router.get('/true/true',getUsuarioT);
 
 //Obtener Usuario False
-router.get('/false',getUsuarioF);
+router.get('/false/false',getUsuarioF);
 
 //Obtener Usuario
-router.get('/:id', getUsuario);
+router.get('/id/:id', getUsuario);
 
 //Ingresar Usuarios
 router.post('/',[
@@ -42,6 +48,9 @@ router.post('/',[
 
 //Editar Usuarios
 router.put('/:id', editarUsuarios);
+
+//Editar Contraseña Usuarios
+router.put('/password/:id', modificarPasswordUsuarios);
 
 //Eliminar Usuarios
 router.delete('/:id',[
