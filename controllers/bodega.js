@@ -17,6 +17,32 @@ const getBodegaContar = async(req, res=response) =>{
     }
 }
 
+//Contar True Bodegas
+const getBodegaContarT = async(req, res=response) =>{
+    const bodegas = await BodegaSchema.count({where:{estado:true}});
+    if(bodegas){
+        res.json({bodegas});
+    }else{
+        res.status(201).json({
+            ok: false,
+            msg: 'No existen Datos que mostrar'
+        })
+    }
+}
+
+//Contar False Bodegas
+const getBodegaContarF = async(req, res=response) =>{
+    const bodegas = await BodegaSchema.count({where:{estado:false}});
+    if(bodegas){
+        res.json({bodegas});
+    }else{
+        res.status(201).json({
+            ok: false,
+            msg: 'No existen Datos que mostrar'
+        })
+    }
+}
+
 //Listar Bodegas Busqueda
 const getBodegaB = async(req, res=response) =>{
     const { bodega } = req.params;
@@ -203,6 +229,8 @@ const eliminarBodega = async ( req, res= response)=>{
 
 module.exports={
     getBodegaContar,
+    getBodegaContarT,
+    getBodegaContarF,
     getBodegaB,
     getBodegas,
     getBodegasT,
