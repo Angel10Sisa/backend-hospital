@@ -9,7 +9,7 @@ const {
     validarJWT,
     esAdminRol
 } = require ('../middlewares');
-const { getUsuarios, getUsuario, crearUsuarios, editarUsuarios, eliminarUsuarios, getUsuarioT, getUsuarioF, getUsuarioContar, getUsuarioB, modificarPasswordUsuarios} = require('../controllers/usuarios');
+const { getUsuarios, getUsuario, crearUsuarios, editarUsuarios, eliminarUsuarios, getUsuarioT, getUsuarioF, getUsuarioContar, getUsuarioB, modificarPasswordUsuarios, getUsuarioContarT, getUsuarioContarF} = require('../controllers/usuarios');
 const { esRolValido, emailExiste, existeUsuarioId } = require('../helpers/db.validator');
 const router=Router();
 
@@ -18,6 +18,12 @@ router.use(validarJWT);
 
 //Contar Usuarios
 router.get('/contar/', getUsuarioContar);
+
+//Contar True Usuarios
+router.get('/contar/T', getUsuarioContarT);
+
+//Contar False Usuarios
+router.get('/contar/F', getUsuarioContarF);
 
 //Obtener Usuarios
 router.get('/:usuario', getUsuarioB);

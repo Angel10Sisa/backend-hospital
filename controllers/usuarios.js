@@ -20,6 +20,32 @@ const getUsuarioContar = async(req, res=response) =>{
     }
 }
 
+//Contar True Usuarios
+const getUsuarioContarT = async(req, res=response) =>{
+    const usuarios = await UsuarioSchema.count({where:{estado:true}});
+    if(usuarios){
+        res.json({usuarios});
+    }else{
+        res.status(201).json({
+            ok: false,
+            msg: 'No existen Datos que mostrar'
+        })
+    }
+}
+
+//Contar False Usuarios
+const getUsuarioContarF = async(req, res=response) =>{
+    const usuarios = await UsuarioSchema.count({where:{estado:false}});
+    if(usuarios){
+        res.json({usuarios});
+    }else{
+        res.status(201).json({
+            ok: false,
+            msg: 'No existen Datos que mostrar'
+        })
+    }
+}
+
 //Listar Usuarios Busqueda
 const getUsuarioB = async(req, res=response) =>{
     const { usuario } = req.params;
@@ -188,7 +214,10 @@ const editarUsuarios = async(req, res=response) => {
             });
         }
         await usuario.update(body);
-        res.json(usuario);
+        res.status(201).json({
+            ok: true,
+            usuario
+        });
     } catch (error) {
         console.log(error);
         res.status(500).json({
@@ -217,6 +246,8 @@ const eliminarUsuarios = async (req, res=response) => {
 }
 
 module.exports = {
+    getUsuarioContarT,
+    getUsuarioContarF,
     modificarPasswordUsuarios,
     getUsuarioContar,
     getUsuarioB,
