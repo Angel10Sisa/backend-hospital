@@ -49,15 +49,28 @@ const getUsuarioContarF = async(req, res=response) =>{
 //Listar Usuarios Busqueda
 const getUsuarioB = async(req, res=response) =>{
     const { usuario } = req.params;
-    const usuarios = await UsuarioSchema.findAll({where:{[Op.or]:[{name:{[Op.like]:'%'+usuario+'%'}},{email:{[Op.like]:'%'+usuario+'%'}}]}});
-    if(usuarios){
-        res.json({usuarios});
+    if(usuario > 0){
+        const usuarios = await UsuarioSchema.findAll({where:{[Op.or]:[{id:{[Op.eq]:parseInt(usuario)}}]}});
+        if(usuarios){
+            res.json({usuarios});
 
+        }else{
+            res.status(201).json({
+                ok: false,
+                msg: 'No existen Datos que mostrar'
+            })
+        }
     }else{
-        res.status(201).json({
-            ok: false,
-            msg: 'No existen Datos que mostrar'
-        })
+        const usuarios = await UsuarioSchema.findAll({where:{[Op.or]:[{name:{[Op.like]:'%'+usuario+'%'}},{email:{[Op.like]:'%'+usuario+'%'}}]}});
+        if(usuarios){
+            res.json({usuarios});
+
+        }else{
+            res.status(201).json({
+                ok: false,
+                msg: 'No existen Datos que mostrar'
+            })
+        }
     }
 }
 
@@ -67,11 +80,6 @@ const getUsuarios = async (req, res=response) => {
     const auditoria = new AuditoriaSchema();
     if(usuarios){
         res.json({usuarios});
-        //Ingreso a la Auditoria
-        auditoria.name='Lista Usuarios';
-        auditoria.descripcion='Se listo Usuarios';
-        auditoria.idusuario=req.id;
-        await auditoria.save();
     }else{
         res.status(201).json({
             ok: false,
@@ -136,12 +144,18 @@ const getUsuario = async (req, res=response) => {
 
 // Ingreso de Usuario
 const crearUsuarios = async(req, res = response) => {
-    const { password } = req.body;
+    const { name, email, password } = req.body;
     const auditoria = new AuditoriaSchema();
 
     try {
-        const usuario = new UsuarioSchema(req.body);
-        
+        let usuario = await UsuarioSchema.findOne({where:{[Op.or]:[{name:name},{email:email}]}});
+        if(usuario){
+            return res.status(400).json({
+                ok: false,
+                msg: 'Usuario ya Existe'
+            });
+        }
+        usuario = new UsuarioSchema(req.body);
         //Encriptar contraseña
         const salt = bcrypt.genSaltSync();
         usuario.password = bcrypt.hashSync(password, salt);
@@ -150,7 +164,7 @@ const crearUsuarios = async(req, res = response) => {
 
         //Ingreso a la Auditoria
         auditoria.name='Ingreso de Usuario';
-        auditoria.descripcion='Se ingreso un nuevo usuario';
+        auditoria.descripcion=`Ingreso de Afiliacion ${usuario.id}`;
         auditoria.idusuario=req.id;
         await auditoria.save();
 
@@ -176,6 +190,7 @@ const crearUsuarios = async(req, res = response) => {
 const modificarPasswordUsuarios = async(req, res = response) => {
     const { id } = req.params;
     const { body } = req;
+    const auditoria = new AuditoriaSchema();
 
     try {
         const usuario = await UsuarioSchema.findByPk(id);
@@ -188,6 +203,11 @@ const modificarPasswordUsuarios = async(req, res = response) => {
         const salt = bcrypt.genSaltSync();
         pass = bcrypt.hashSync(body.password, salt);
         await usuario.update({password: pass});
+        //Ingreso a la Auditoria
+        auditoria.name='Editar Password';
+        auditoria.descripcion=`Se edito password del Usuario ${usuario.id}`;
+        auditoria.idusuario=req.id;
+        await auditoria.save();
         res.status(201).json({
             ok: true,
             password: usuario.password
@@ -206,6 +226,7 @@ const modificarPasswordUsuarios = async(req, res = response) => {
 const editarUsuarios = async(req, res=response) => {
     const { id } = req.params;
     const { body } = req;
+    const auditoria = new AuditoriaSchema();
     try {
         const usuario = await UsuarioSchema.findByPk(id);
         if(!usuario){
@@ -214,6 +235,11 @@ const editarUsuarios = async(req, res=response) => {
             });
         }
         await usuario.update(body);
+        //Ingreso a la Auditoria
+        auditoria.name='Editar Usuario';
+        auditoria.descripcion=`Se edito Usuario ${usuario.id}`;
+        auditoria.idusuario=req.id;
+        await auditoria.save();
         res.status(201).json({
             ok: true,
             usuario
@@ -236,7 +262,7 @@ const eliminarUsuarios = async (req, res=response) => {
         await usuario.update({estado: false}); //Edita elestado de true a false
         //Ingreso a la Auditoria
         auditoria.name='Eliminar Usuarios';
-        auditoria.descripcion=`Se cambio el estado del usuario ${usuario.nombre}`;
+        auditoria.descripcion=`Se cambio el estado del usuario ${usuario.id}`;
         auditoria.idusuario=req.id;
         await auditoria.save();
         res.status(201).json({
