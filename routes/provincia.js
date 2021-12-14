@@ -5,7 +5,7 @@
 
 const { Router } = require('express');
 const { check } = require('express-validator');
-const { getProvincias, getProvincia, crearProvincia, editarProvincia, eliminarProvincia } = require('../controllers/provincia');
+const { getProvincias, getProvincia, crearProvincia, editarProvincia, eliminarProvincia, getProvinciasContar, getProvinciasB } = require('../controllers/provincia');
 const { existePais } = require('../helpers/db.validator');
 const { validarJWT, validarCampos } = require('../middlewares');
 const router = Router();
@@ -13,11 +13,17 @@ const router = Router();
 //Todas tienen que pasar por la validacion de JWT
 router.use(validarJWT);
 
+//Contar Provincias
+router.get('/contar/', getProvinciasContar);
+
+//Obtener Filtrar Provincias
+router.get('/:provincia', getProvinciasB);
+
 //Obtener Provincias
 router.get('/',getProvincias);
 
 //Obtener Provincia
-router.get('/:id',getProvincia);
+router.get('/id/:id',getProvincia);
 
 //Ingresar Provincia
 router.post('/',[

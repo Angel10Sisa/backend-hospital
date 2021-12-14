@@ -2,6 +2,36 @@ const  response  = require ('express');
 const { AuditoriaSchema } = require('../models/Auditoria');
 const { PaisSchema } = require('../models/Pais');
 const { ProvinciaSchema } = require('../models/Provincia');
+const Sequelize = require ('sequelize');
+const Op=Sequelize.Op;
+
+//Contar Provincias
+const getProvinciasContar = async(req, res=response) =>{
+    const provincias = await ProvinciaSchema.count();
+    if(provincias){
+        res.json({provincias});
+    }else{
+        res.status(201).json({
+            ok: false,
+            msg: 'No existen Datos que mostrar'
+        })
+    }
+}
+
+//Listar Bodegas Busqueda
+const getProvinciasB = async(req, res=response) =>{
+    const { provincia } = req.params;
+    const provincias = await ProvinciaSchema.findAll({where:{[Op.or]:[{provincia:{[Op.like]:'%'+provincia+'%'}}]}});
+    if(provincias){
+        res.json({provincias});
+
+    }else{
+        res.status(201).json({
+            ok: false,
+            msg: 'No existen Datos que mostrar'
+        })
+    }
+}
 
 // Listar Provincias
 const getProvincias = async(req, res= response) =>{
@@ -80,8 +110,10 @@ const editarProvincia = async(req, res= response) =>{
         auditoria.descripcion=`Se edito Provincia ${provincias.provincia}`;
         auditoria.idusuario=req.id;
         await auditoria.save();
-
-        res.json({provincias})
+        res.status(201).json({
+            ok: true,
+            provincias
+        });
     } catch (error) {
         console.log(error);
         res.status(500).json({
@@ -114,6 +146,8 @@ const eliminarProvincia = async(req, res= response) =>{
 }
 
 module.exports={
+    getProvinciasContar,
+    getProvinciasB,
     getProvincias,
     getProvincia,
     crearProvincia,
