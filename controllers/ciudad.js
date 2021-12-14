@@ -2,6 +2,36 @@ const  response  = require ('express');
 const { AuditoriaSchema } = require('../models/Auditoria');
 const { CiudadSchema } = require('../models/Ciudad');
 const { ProvinciaSchema } = require('../models/Provincia');
+const Sequelize = require ('sequelize');
+const Op=Sequelize.Op;
+
+//Contar Provincias
+const getCiudadContar = async(req, res=response) =>{
+    const ciudades = await CiudadSchema.count();
+    if(ciudades){
+        res.json({ciudades});
+    }else{
+        res.status(201).json({
+            ok: false,
+            msg: 'No existen Datos que mostrar'
+        })
+    }
+}
+
+//Listar Bodegas Busqueda
+const getCiudadB = async(req, res=response) =>{
+    const { ciudad } = req.params;
+    const ciudades = await CiudadSchema.findAll({where:{[Op.or]:[{ciudad:{[Op.like]:'%'+ciudad+'%'}}]}});
+    if(ciudades){
+        res.json({ciudades});
+
+    }else{
+        res.status(201).json({
+            ok: false,
+            msg: 'No existen Datos que mostrar'
+        })
+    }
+}
 
 
 //Listar Ciudades
@@ -80,7 +110,10 @@ const editarCiudad = async(req, res=response) => {
         auditoria.idusuario=req.id;
         await auditoria.save();
 
-        res.json({ciudades})
+        res.status(201).json({
+            ok: true,
+            ciudades
+        });
     } catch (error) {
         res.status(500).json({
             msg:'Hable con el administrador'
@@ -113,6 +146,8 @@ const eliminarCiudad = async(req, res=response) => {
 }
 
 module.exports = {
+    getCiudadContar,
+    getCiudadB,
     getCiudades,
     getCiudad,
     crearCiudad,
