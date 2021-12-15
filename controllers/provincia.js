@@ -33,6 +33,21 @@ const getProvinciasB = async(req, res=response) =>{
     }
 }
 
+//Listar Bodegas Busqueda
+const getProvinciasPais = async(req, res=response) =>{
+    const { pais } = req.params;
+    const provincias = await ProvinciaSchema.findAll({where:{pais:pais}});
+    if(provincias){
+        res.json({provincias});
+
+    }else{
+        res.status(201).json({
+            ok: false,
+            msg: 'No existen Datos que mostrar'
+        })
+    }
+}
+
 // Listar Provincias
 const getProvincias = async(req, res= response) =>{
     const provincias = await ProvinciaSchema.findAll({include:[{model: PaisSchema, as:'Pais'}]});
@@ -146,6 +161,7 @@ const eliminarProvincia = async(req, res= response) =>{
 }
 
 module.exports={
+    getProvinciasPais,
     getProvinciasContar,
     getProvinciasB,
     getProvincias,

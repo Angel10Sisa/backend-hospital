@@ -33,6 +33,21 @@ const getCiudadB = async(req, res=response) =>{
     }
 }
 
+//Listar Ciudad Busqueda Provincia
+const getCiudadProvincia = async(req, res=response) =>{
+    const { provincia } = req.params;
+    const ciudades = await CiudadSchema.findAll({where:{provincia:provincia}});
+    if(ciudades){
+        res.json({ciudades});
+
+    }else{
+        res.status(201).json({
+            ok: false,
+            msg: 'No existen Datos que mostrar'
+        })
+    }
+}
+
 
 //Listar Ciudades
 const getCiudades = async(req, res=response) => {
@@ -152,5 +167,6 @@ module.exports = {
     getCiudad,
     crearCiudad,
     editarCiudad,
-    eliminarCiudad
+    eliminarCiudad,
+    getCiudadProvincia
 }

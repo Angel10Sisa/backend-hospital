@@ -2,6 +2,36 @@ const  response  = require ('express');
 const { AuditoriaSchema } = require('../models/Auditoria');
 const { CiudadSchema } = require('../models/Ciudad');
 const { DireccionSchema } = require('../models/Direccion');
+const Sequelize = require ('sequelize');
+const Op=Sequelize.Op;
+
+//Contar Direcciones
+const getDireccionContar = async(req, res=response) =>{
+    const direcciones = await DireccionSchema.count();
+    if(direcciones){
+        res.json({direcciones});
+    }else{
+        res.status(201).json({
+            ok: false,
+            msg: 'No existen Datos que mostrar'
+        })
+    }
+}
+
+//Listar Direcciones Busqueda
+const getDireccionB = async(req, res=response) =>{
+    const { direccion } = req.params;
+    const direcciones = await DireccionSchema.findAll({where:{[Op.or]:[{direccion:{[Op.like]:'%'+direccion+'%'}}]}});
+    if(direcciones){
+        res.json({direcciones});
+
+    }else{
+        res.status(201).json({
+            ok: false,
+            msg: 'No existen Datos que mostrar'
+        })
+    }
+}
 
 //Listar Direcciones
 const getDirecciones = async (req, res=response) => {
@@ -75,11 +105,13 @@ const editarDireccion = async (req, res=response) => {
         await direcciones.update(req.body);
         //Ingreso a la Auditoria
         auditoria.name='Editar Direccion';
-        auditoria.descripcion=`Se edito DIreccion ${direcciones.direccion}`;
+        auditoria.descripcion=`Se edito Direccion ${direcciones.direccion}`;
         auditoria.idusuario=req.id;
         await auditoria.save();
-
-        res.json({direcciones})
+        res.status(201).json({
+            ok: true,
+            direcciones
+        });
     } catch (error) {
         res.status(500).json({
             msg:'Hable con el administrador'
@@ -110,6 +142,8 @@ const eliminarDireccion = async (req, res=response) => {
 }
 
 module.exports = {
+    getDireccionContar,
+    getDireccionB,
     getDirecciones,
     getDireccion,
     crearDireccion,

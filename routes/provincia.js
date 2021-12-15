@@ -5,7 +5,7 @@
 
 const { Router } = require('express');
 const { check } = require('express-validator');
-const { getProvincias, getProvincia, crearProvincia, editarProvincia, eliminarProvincia, getProvinciasContar, getProvinciasB } = require('../controllers/provincia');
+const { getProvincias, getProvincia, crearProvincia, editarProvincia, eliminarProvincia, getProvinciasContar, getProvinciasB, getProvinciasPais } = require('../controllers/provincia');
 const { existePais } = require('../helpers/db.validator');
 const { validarJWT, validarCampos } = require('../middlewares');
 const router = Router();
@@ -18,6 +18,9 @@ router.get('/contar/', getProvinciasContar);
 
 //Obtener Filtrar Provincias
 router.get('/:provincia', getProvinciasB);
+
+//Obtener Filtrar Provincias Pais
+router.get('/pais/:pais', getProvinciasPais);
 
 //Obtener Provincias
 router.get('/',getProvincias);

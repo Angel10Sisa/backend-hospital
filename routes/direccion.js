@@ -4,7 +4,7 @@
 */
 const { Router } = require('express');
 const { check } = require('express-validator');
-const { getDirecciones, getDireccion, crearDireccion, editarDireccion, eliminarDireccion } = require('../controllers/direccion');
+const { getDirecciones, getDireccion, crearDireccion, editarDireccion, eliminarDireccion, getDireccionContar, getDireccionB } = require('../controllers/direccion');
 const { existePais, existeProvincia, existeCuidad } = require('../helpers/db.validator');
 const { validarJWT, validarCampos } = require('../middlewares');
 const router = Router();
@@ -13,26 +13,31 @@ const router = Router();
 //Todas tienen que pasar por la validacion de JWT
 router.use(validarJWT);
 
-//Obtener Ciudades
+//Contar Direcciones
+router.get('/contar/', getDireccionContar);
+
+//Obtener Filtrar Direcciones
+router.get('/:direccion', getDireccionB);
+
+//Obtener Direcciones
 router.get('/',getDirecciones);
 
-//Obtener Ciudad
-router.get('/:id',getDireccion);
+//Obtener Direcciones
+router.get('/id/:id',getDireccion);
 
-//Ingresar Ciudad
+//Ingresar Direcciones
 router.post('/',[
     check('pais','El pais es obligatoria').custom(existePais),
     check('provincia','La provincia es obligatoria').custom(existeProvincia),
     check('ciudad','La ciudad es obligatoria').custom(existeCuidad),
     check('direccion','La direccion es obligatoria').not().isEmpty(),
-    check('referencia','La referencia es obligatoria').not().isEmpty(),
     validarCampos
 ],crearDireccion);
 
-//Editar Ciudad
+//Editar Direcciones
 router.put('/:id',editarDireccion);
 
-//Eliminar Ciudad
+//Eliminar Direcciones
 router.delete('/:id',eliminarDireccion);
 
 module.exports = router;
