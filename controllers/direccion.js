@@ -33,6 +33,21 @@ const getDireccionB = async(req, res=response) =>{
     }
 }
 
+//Listar  Direccion Busqueda Ciudad
+const getDireccionCiudad = async(req, res=response) =>{
+    const { ciudad } = req.params;
+    const direcciones = await DireccionSchema.findAll({where:{ciudad:ciudad}});
+    if(direcciones){
+        res.json({direcciones});
+
+    }else{
+        res.status(201).json({
+            ok: false,
+            msg: 'No existen Datos que mostrar'
+        })
+    }
+}
+
 //Listar Direcciones
 const getDirecciones = async (req, res=response) => {
     const direcciones = await DireccionSchema.findAll({include:[{model: CiudadSchema, as:'Ciudads'}]});
@@ -144,6 +159,7 @@ const eliminarDireccion = async (req, res=response) => {
 module.exports = {
     getDireccionContar,
     getDireccionB,
+    getDireccionCiudad,
     getDirecciones,
     getDireccion,
     crearDireccion,

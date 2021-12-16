@@ -4,7 +4,7 @@
 */
 const { Router } = require('express');
 const { check } = require('express-validator');
-const { getDirecciones, getDireccion, crearDireccion, editarDireccion, eliminarDireccion, getDireccionContar, getDireccionB } = require('../controllers/direccion');
+const { getDirecciones, getDireccion, crearDireccion, editarDireccion, eliminarDireccion, getDireccionContar, getDireccionB, getDireccionCiudad } = require('../controllers/direccion');
 const { existePais, existeProvincia, existeCuidad } = require('../helpers/db.validator');
 const { validarJWT, validarCampos } = require('../middlewares');
 const router = Router();
@@ -18,6 +18,9 @@ router.get('/contar/', getDireccionContar);
 
 //Obtener Filtrar Direcciones
 router.get('/:direccion', getDireccionB);
+
+//Obtener Filtrar Direccion Ciudad
+router.get('/ciudad/:ciudad', getDireccionCiudad);
 
 //Obtener Direcciones
 router.get('/',getDirecciones);
