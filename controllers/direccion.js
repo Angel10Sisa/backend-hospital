@@ -50,7 +50,7 @@ const getDireccionCiudad = async(req, res=response) =>{
 
 //Listar Direcciones
 const getDirecciones = async (req, res=response) => {
-    const direcciones = await DireccionSchema.findAll({include:[{model: CiudadSchema, as:'Ciudads'}]});
+    const direcciones = await DireccionSchema.findAll({order:['id']});
     if(direcciones){
         res.json({direcciones});
     }else{

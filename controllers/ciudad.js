@@ -51,7 +51,7 @@ const getCiudadProvincia = async(req, res=response) =>{
 
 //Listar Ciudades
 const getCiudades = async(req, res=response) => {
-    const ciudades= await CiudadSchema.findAll({include:[{model: ProvinciaSchema, as:'Provincia'}]});
+    const ciudades= await CiudadSchema.findAll({order:['id']});
     if(ciudades){
         res.json({ciudades});
     }else{

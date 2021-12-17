@@ -38,8 +38,6 @@ const ProveedorSchema = db.define('Proveedor',{
     {
     freezeTableName: true
     })
-    ProveedorSchema.hasMany(DireccionSchema,{foreignKey:'id', sourceKey:'direccion'});
-    DireccionSchema.belongsTo(ProveedorSchema,{foreignKey:'direccion', sourceKey:'id'});
 
     module.exports={
         ProveedorSchema

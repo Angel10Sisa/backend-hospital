@@ -50,7 +50,7 @@ const getProvinciasPais = async(req, res=response) =>{
 
 // Listar Provincias
 const getProvincias = async(req, res= response) =>{
-    const provincias = await ProvinciaSchema.findAll({include:[{model: PaisSchema, as:'Pais'}]});
+    const provincias = await ProvinciaSchema.findAll({order:['id']});
     if(provincias){
         res.json({provincias});
     }else{

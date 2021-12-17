@@ -76,7 +76,7 @@ const getUsuarioB = async(req, res=response) =>{
 
 // Listar Usuario
 const getUsuarios = async (req, res=response) => {
-    const usuarios = await UsuarioSchema.findAll({include:[{model: RolSchema, as:'Rols'}]});
+    const usuarios = await UsuarioSchema.findAll({order:['id']});
     const auditoria = new AuditoriaSchema();
     if(usuarios){
         res.json({usuarios});

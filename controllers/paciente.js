@@ -2,6 +2,62 @@ const response = require ('express');
 const { AfiliacionSchema } = require('../models/Afiliacion');
 const { AuditoriaSchema } = require('../models/Auditoria');
 const { PacienteSchema } = require('../models/Paciente');
+const Sequelize = require ('sequelize');
+const Op=Sequelize.Op;
+
+//Contar Proveedor
+const getPacienteContar = async(req, res=response) =>{
+    const pacientes = await PacienteSchema.count();
+    if(pacientes){
+        res.json({pacientes});
+    }else{
+        res.status(201).json({
+            ok: false,
+            msg: 'No existen Datos que mostrar'
+        })
+    }
+}
+
+//Contar Proveedor TRUE
+const getPacienteContarT = async(req, res=response) =>{
+    const pacientes = await PacienteSchema.count({where:{estado:true}});
+    if(pacientes){
+        res.json({pacientes});
+    }else{
+        res.status(201).json({
+            ok: false,
+            msg: 'No existen Datos que mostrar'
+        })
+    }
+}
+
+//Contar Proveedor FALSE
+const getPacienteContarF = async(req, res=response) =>{
+    const pacientes = await PacienteSchema.count({where:{estado:false}});
+    if(pacientes){
+        res.json({pacientes});
+    }else{
+        res.status(201).json({
+            ok: false,
+            msg: 'No existen Datos que mostrar'
+        })
+    }
+}
+
+//Listar Proveedor Busqueda
+const getPacienteB = async(req, res=response) =>{
+    const { paciente } = req.params;
+    const pacientes = await PacienteSchema.findAll({where:{[Op.or]:[{identificacion:{[Op.like]:'%'+paciente+'%'}},{apellido:{[Op.like]:'%'+paciente+'%'}},{nombre:{[Op.like]:'%'+paciente+'%'}},{email:{[Op.like]:'%'+paciente+'%'}}]}});
+    if(pacientes){
+        res.json({pacientes});
+
+    }else{
+        res.status(201).json({
+            ok: false,
+            msg: 'No existen Datos que mostrar'
+        })
+    }
+}
 
 //Listar Paciente
 const getPacientes = async (req, res=response) => {
@@ -97,13 +153,6 @@ const crearPaciente = async (req, res=response) => {
             });
         }
         pacientes = new PacienteSchema(req.body);
-        let afiliaciones = await AfiliacionSchema.findOne({where: {id:pacientes.afiliacion}});
-        if(afiliaciones.estado === false){
-            return res.status(400).json({
-                ok: false,
-                msg: 'Afiliación no esta activa'
-            });
-        }
         await pacientes.save();
         //Ingreso a la Auditoria
         auditoria.name='Ingreso de Paciente';
@@ -141,8 +190,12 @@ const editarPaciente = async (req, res=response) => {
         auditoria.idusuario=req.id;
         await auditoria.save();
 
-        res.json({pacientes})
+        res.status(201).json({
+            ok: true,
+            pacientes
+        });
     } catch (error) {
+        console.log(error);
         res.status(500).json({
             msg:'Hable con el administrador'
         })
@@ -178,6 +231,10 @@ const eliminarPaciente = async (req, res=response) => {
 }
 
 module.exports = {
+    getPacienteContar,
+    getPacienteContarT,
+    getPacienteContarF,
+    getPacienteB,
     getPacientes,
     getPacientesT,
     getPacientesF,

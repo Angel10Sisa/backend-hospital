@@ -91,23 +91,6 @@ const PacienteSchema = db.define('Paciente',{
     {
     freezeTableName: true
     })
-    PacienteSchema.hasMany(TipoidentificacionSchema,{foreignKey:'id', sourceKey:'tipoidentificacion'});
-    TipoidentificacionSchema.belongsTo(PacienteSchema,{foreignKey:'tipoidentificacion', sourceKey:'id'});
-
-    PacienteSchema.hasMany(EstadocivilSchema,{foreignKey:'id', sourceKey:'estadocivil'});
-    EstadocivilSchema.belongsTo(PacienteSchema,{foreignKey:'estadocivil', sourceKey:'id'});
-
-    PacienteSchema.hasMany(SexoSchema,{foreignKey:'id', sourceKey:'sexo'});
-    SexoSchema.belongsTo(PacienteSchema,{foreignKey:'sexo', sourceKey:'id'});
-
-    PacienteSchema.hasMany(AfiliacionSchema,{foreignKey:'id', sourceKey:'afiliacion'});
-    AfiliacionSchema.belongsTo(PacienteSchema,{foreignKey:'afiliacion', sourceKey:'id'});
-
-    PacienteSchema.hasMany(TipopacienteSchema,{foreignKey:'id', sourceKey:'tipopaciente'});
-    TipopacienteSchema.belongsTo(PacienteSchema,{foreignKey:'tipopaciente', sourceKey:'id'});
-
-    PacienteSchema.hasMany(DireccionSchema,{foreignKey:'id', sourceKey:'direccion'});
-    DireccionSchema.belongsTo(PacienteSchema,{foreignKey:'direccion', sourceKey:'id'});
 
     module.exports={
         PacienteSchema
