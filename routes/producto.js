@@ -4,7 +4,7 @@
 */
 const { Router } = require('express');
 const { check } = require('express-validator');
-const { getProductos, getProductosT, getProductosF, getProducto, crearProducto, editarProducto, eliminarProducto } = require('../controllers/producto');
+const { getProductos, getProductosT, getProductosF, getProducto, crearProducto, editarProducto, eliminarProducto, getProductoContar, getProductoContarF, getProductoB, getProductoContarT } = require('../controllers/producto');
 const { existeTipoproducto } = require('../helpers/db.validator');
 const { validarJWT, validarCampos } = require('../middlewares');
 const router = Router();
@@ -13,17 +13,29 @@ const router = Router();
 //Todas tienen que pasar por la validacion de JWT
 router.use(validarJWT);
 
+//Contar Producto
+router.get('/contar/', getProductoContar);
+
+//Contar True Producto
+router.get('/contar/T', getProductoContarT);
+
+//Contar False Producto
+router.get('/contar/F', getProductoContarF);
+
+//Obtener Producto Filtrar
+router.get('/:producto', getProductoB);
+
 //Obtener Productos
 router.get('/',getProductos);
 
 //Obtener Productos True
-router.get('/true',getProductosT);
+router.get('/true/true',getProductosT);
 
 //Obtener Productos False
-router.get('/false',getProductosF);
+router.get('/false/false',getProductosF);
 
 //Obtener Producto
-router.get('/:id',getProducto);
+router.get('/id/:id',getProducto);
 
 //Ingresar Producto
 router.post('/',[

@@ -1,6 +1,62 @@
 const response = require ('express');
 const { AuditoriaSchema } = require('../models/Auditoria');
 const { ProductoSchema } = require('../models/Producto');
+const Sequelize = require ('sequelize');
+const Op=Sequelize.Op;
+
+//Contar Producto
+const getProductoContar = async(req, res=response) =>{
+    const productos = await ProductoSchema.count();
+    if(productos){
+        res.json({productos});
+    }else{
+        res.status(201).json({
+            ok: false,
+            msg: 'No existen Datos que mostrar'
+        })
+    }
+}
+
+//Contar Producto TRUE
+const getProductoContarT = async(req, res=response) =>{
+    const productos = await ProductoSchema.count({where:{estado:true}});
+    if(productos){
+        res.json({productos});
+    }else{
+        res.status(201).json({
+            ok: false,
+            msg: 'No existen Datos que mostrar'
+        })
+    }
+}
+
+//Contar Producto FALSE
+const getProductoContarF = async(req, res=response) =>{
+    const productos = await ProductoSchema.count({where:{estado:false}});
+    if(productos){
+        res.json({productos});
+    }else{
+        res.status(201).json({
+            ok: false,
+            msg: 'No existen Datos que mostrar'
+        })
+    }
+}
+
+//Listar Producto Busqueda
+const getProductoB = async(req, res=response) =>{
+    const { producto } = req.params;
+    const productos = await ProductoSchema.findAll({where:{[Op.or]:[{nombre:{[Op.like]:'%'+producto+'%'}},{codigo:{[Op.like]:'%'+producto+'%'}},{identificador:{[Op.like]:'%'+producto+'%'}}]}});
+    if(productos){
+        res.json({productos});
+
+    }else{
+        res.status(201).json({
+            ok: false,
+            msg: 'No existen Datos que mostrar'
+        })
+    }
+}
 
 //Listar Productos
 const getProductos = async ( req, res = response ) => {
@@ -140,7 +196,10 @@ const editarProducto = async ( req, res = response ) => {
         auditoria.idusuario=req.id;
         await auditoria.save();
 
-        res.json({productos})
+        res.status(201).json({
+            ok: true,
+            productos
+        });
     } catch (error) {
         res.status(500).json({
             msg:'Hable con el administrador'
@@ -177,6 +236,10 @@ const eliminarProducto = async ( req, res = response ) => {
 }
 
 module.exports = {
+    getProductoContar,
+    getProductoContarT,
+    getProductoContarF,
+    getProductoB,
     getProductos,
     getProductosT,
     getProductosF,

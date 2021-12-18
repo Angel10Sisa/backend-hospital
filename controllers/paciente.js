@@ -1,11 +1,10 @@
 const response = require ('express');
-const { AfiliacionSchema } = require('../models/Afiliacion');
 const { AuditoriaSchema } = require('../models/Auditoria');
 const { PacienteSchema } = require('../models/Paciente');
 const Sequelize = require ('sequelize');
 const Op=Sequelize.Op;
 
-//Contar Proveedor
+//Contar Paciente
 const getPacienteContar = async(req, res=response) =>{
     const pacientes = await PacienteSchema.count();
     if(pacientes){
@@ -18,7 +17,7 @@ const getPacienteContar = async(req, res=response) =>{
     }
 }
 
-//Contar Proveedor TRUE
+//Contar Paciente TRUE
 const getPacienteContarT = async(req, res=response) =>{
     const pacientes = await PacienteSchema.count({where:{estado:true}});
     if(pacientes){
@@ -31,7 +30,7 @@ const getPacienteContarT = async(req, res=response) =>{
     }
 }
 
-//Contar Proveedor FALSE
+//Contar Paciente FALSE
 const getPacienteContarF = async(req, res=response) =>{
     const pacientes = await PacienteSchema.count({where:{estado:false}});
     if(pacientes){
@@ -44,7 +43,7 @@ const getPacienteContarF = async(req, res=response) =>{
     }
 }
 
-//Listar Proveedor Busqueda
+//Listar Paciente Busqueda
 const getPacienteB = async(req, res=response) =>{
     const { paciente } = req.params;
     const pacientes = await PacienteSchema.findAll({where:{[Op.or]:[{identificacion:{[Op.like]:'%'+paciente+'%'}},{apellido:{[Op.like]:'%'+paciente+'%'}},{nombre:{[Op.like]:'%'+paciente+'%'}},{email:{[Op.like]:'%'+paciente+'%'}}]}});
