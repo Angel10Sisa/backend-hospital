@@ -4,7 +4,7 @@
 */
 const { Router } = require('express');
 const { check } = require('express-validator');
-const { getProductobodegas, getProductobodega, crearProductobodega, editarProductobodega, eliminarProductobodega } = require('../controllers/productobodega');
+const { getProductobodegas, getProductobodega, crearProductobodega, editarProductobodega, eliminarProductobodega, getProductobodegaContar, getProductobodegaB, getProductobodegaidContar, getProductobodegaid } = require('../controllers/productobodega');
 const { existeBodega, existeProducto } = require('../helpers/db.validator');
 const { validarJWT, validarCampos } = require('../middlewares');
 const router = Router();
@@ -13,11 +13,23 @@ const router = Router();
 //Todas tienen que pasar por la validacion de JWT
 router.use(validarJWT);
 
+//Contar Productobodega
+router.get('/contar/', getProductobodegaContar);
+
+//Contar Productobodegaid
+router.get('/contar/:productobodega', getProductobodegaidContar);
+
+//Obtener Productobodega Filtrar
+router.get('/:productobodega', getProductobodegaB);
+
 //Obtener ProductoBodegas
 router.get('/',getProductobodegas);
 
+//Obtener ProductoBodegas
+router.get('/listar/:productobodega',getProductobodegaid);
+
 //Obtener Productobodega
-router.get('/:id',getProductobodega);
+router.get('/id/:id',getProductobodega);
 
 //Ingresar Productobodega
 router.post('/',[
@@ -27,11 +39,7 @@ router.post('/',[
     check('nombreproducto','El nombre producto es obligatoria').not().isEmpty(),
     check('propiedadproducto','La propiedades del producto son obligatoria').not().isEmpty(),
     check('stockminimo','El stock minimo es obligatoria').isInt(),
-    check('stock','El stock es obligatoria').isInt(),
-    check('preciocompra','El precio es obligatorio').isDecimal(),
     check('precioventa','El precio es obligatorio').isDecimal(),
-    check('valortotal','El precio es obligatorio').isDecimal(),
-    check('fechacaducidad','La fecha es obligatorio').isDate(),
     validarCampos
 ],crearProductobodega);
 
