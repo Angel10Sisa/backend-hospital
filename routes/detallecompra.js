@@ -4,7 +4,7 @@
 */
 const { Router } = require('express');
 const { check } = require('express-validator');
-const { getDetallecompras, getDetallecompra, editarDetallecompra, crearDetallecompra, eliminarDetallecompra } = require('../controllers/detallecompra');
+const { getDetallecompras, getDetallecompra, editarDetallecompra, crearDetallecompra, eliminarDetallecompra, getDetallecompraID } = require('../controllers/detallecompra');
 const { existeProducto, existeCompra } = require('../helpers/db.validator');
 const { validarJWT, validarCampos } = require('../middlewares');
 const router = Router();
@@ -13,11 +13,14 @@ const router = Router();
 //Todas tienen que pasar por la validacion de JWT
 router.use(validarJWT);
 
+//Obtener ProductoBodegas
+router.get('/listar/:detallecompra',getDetallecompraID);
+
 //Listar Detalle compra
 router.get('/',getDetallecompras);
 
 //Obtener Detalle Compra
-router.get('/:id',getDetallecompra);
+router.get('/id/:id',getDetallecompra);
 
 //Ingresar Detalle Compra
 router.post('/',[

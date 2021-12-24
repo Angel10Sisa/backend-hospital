@@ -3,6 +3,90 @@ const { AuditoriaSchema } = require('../models/Auditoria');
 const { BodegaSchema } = require('../models/Bodega');
 const { CompraSchema } = require('../models/Compra');
 const { ProveedorSchema } = require('../models/Proveedor');
+const Sequelize = require ('sequelize');
+const Op=Sequelize.Op;
+var moment = require('moment');
+
+//Contar Compra Bodega
+const getCompraContar = async(req, res=response) =>{
+    const compras = await CompraSchema.count();
+    if(compras){
+        res.json({compras});
+    }else{
+        res.status(201).json({
+            ok: false,
+            msg: 'No existen Datos que mostrar'
+        })
+    }
+}
+
+//Contar True Comprar
+const getCompraContarT = async(req, res=response) =>{
+    const compras = await CompraSchema.count({where:{estado:true}});
+    if(compras){
+        res.json({compras});
+    }else{
+        res.status(201).json({
+            ok: false,
+            msg: 'No existen Datos que mostrar'
+        })
+    }
+}
+
+//Contar False Compra
+const getCompraContarF = async(req, res=response) =>{
+    const compras = await CompraSchema.count({where:{estado:false}});
+    if(compras){
+        res.json({compras});
+    }else{
+        res.status(201).json({
+            ok: false,
+            msg: 'No existen Datos que mostrar'
+        })
+    }
+}
+
+//Listar Paciente Busqueda
+const getCompraB = async(req, res=response) =>{
+    const { compra } = req.params;
+    const compras = await CompraSchema.findAll({where:{[Op.or]:[{documento:{[Op.like]:'%'+compra+'%'}}]}});
+    if(compras){
+        res.json({compras});
+
+    }else{
+        res.status(201).json({
+            ok: false,
+            msg: 'No existen Datos que mostrar'
+        })
+    }
+}
+
+//Listar Auditoria Pro Fechas
+const getCompraF = async(req, res=response) =>{
+    try {
+    const { fecha1, fecha2 } = req.body;
+    console.log(fecha1);
+    fechaa = moment(fecha1).format('YYYY-MM-DD');
+    fechae = moment(fecha2).format('YYYY-MM-DD');
+        const compras = await CompraSchema.findAll({where:{fecha: {
+            [Op.between]: [fechaa,fechae]
+          }}});
+        if(compras){
+            res.json({compras});
+        }else{
+            res.status(201).json({
+                ok: false,
+                msg: 'No existen Datos que mostrar'
+            })
+        }
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Hable con el administrador'
+        }); 
+    }
+}
 
 //Listar Compras
 const getCompras = async (req, res=response) =>{
@@ -186,6 +270,11 @@ const eliminarCompra = async (req, res=response) =>{
 }
 
 module.exports = {
+    getCompraContar,
+    getCompraContarT,
+    getCompraContarF,
+    getCompraB,
+    getCompraF,
     getCompras,
     getComprasT,
     getComprasF,

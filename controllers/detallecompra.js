@@ -4,6 +4,20 @@ const { CompraSchema } = require('../models/Compra');
 const { DetallecompraSchema } = require('../models/Detallecompra');
 const { ProductoSchema } = require('../models/Producto');
 
+//Contar Detalle IDCompra
+const getDetallecompraID = async(req, res=response) =>{
+    const { detallecompra } = req.params;
+    const detallecompras = await DetallecompraSchema.findAll({where:{compra:detallecompra}});
+    if(detallecompras){
+        res.json({detallecompras});
+    }else{
+        res.status(201).json({
+            ok: false,
+            msg: 'No existen Datos que mostrar'
+        })
+    }
+}
+
 //Listar Detalle Compra
 const getDetallecompras = async ( req, res = response ) => {
     try {
@@ -48,7 +62,6 @@ const getDetallecompra = async ( req, res = response ) => {
 //Ingresar Detalle Compra
 const crearDetallecompra = async ( req, res = response ) => {
     const { compra, producto } = req.body;
-    const auditoria = new AuditoriaSchema();
     try {
         let compras = await CompraSchema.findByPk(compra);
         if(compras.estado === false){
@@ -66,11 +79,6 @@ const crearDetallecompra = async ( req, res = response ) => {
         }
         let detallecompras = new DetallecompraSchema(req.body);
         await detallecompras.save();
-        //Ingreso a la Auditoria
-        auditoria.name='Ingreso de Detalle Compra';
-        auditoria.descripcion=`Ingreso de Detalle Compra ${detallecompras.id}`;
-        auditoria.idusuario=req.id;
-        await auditoria.save();
         res.status(201).json({
             ok: true,
             detallecompras
@@ -86,7 +94,6 @@ const crearDetallecompra = async ( req, res = response ) => {
 //Editar Detalle Compra
 const editarDetallecompra = async ( req, res = response ) => {
     const { id } = req.params;
-    const auditoria = new AuditoriaSchema();
     try {
         let detallecompras = await DetallecompraSchema.findByPk(id);
         if(!detallecompras){
@@ -96,11 +103,6 @@ const editarDetallecompra = async ( req, res = response ) => {
         }
 
         await detallecompras.update(req.body);
-        //Ingreso a la Auditoria
-        auditoria.name='Editar Detalle Compra';
-        auditoria.descripcion=`Se edito Detalle Compra ${detallecompras.id}`;
-        auditoria.idusuario=req.id;
-        await auditoria.save();
 
         res.json({detallecompras})
     } catch (error) {
@@ -113,7 +115,6 @@ const editarDetallecompra = async ( req, res = response ) => {
 //Eliminar Detalle Compra
 const eliminarDetallecompra = async ( req, res = response ) => {
     const { id } = req.params;
-    const auditoria = new AuditoriaSchema();
     try {
         const detallecompras = await DetallecompraSchema.findByPk(id);
         if(!detallecompras){
@@ -122,11 +123,6 @@ const eliminarDetallecompra = async ( req, res = response ) => {
             });
         }
         await detallecompras.destroy();
-        //Ingreso a la Auditoria
-        auditoria.name='Eliminar Detalle Compra';
-        auditoria.descripcion=`Se elimino Detalle Compra ${detallecompras.id}`;
-        auditoria.idusuario=req.id;
-        await auditoria.save();
         res.status(201).json({
             ok: true,
             detallecompras
@@ -139,6 +135,7 @@ const eliminarDetallecompra = async ( req, res = response ) => {
 }
 
 module.exports = {
+    getDetallecompraID,
     getDetallecompras,
     getDetallecompra,
     crearDetallecompra,
