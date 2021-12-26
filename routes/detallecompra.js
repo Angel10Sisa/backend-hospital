@@ -4,7 +4,7 @@
 */
 const { Router } = require('express');
 const { check } = require('express-validator');
-const { getDetallecompras, getDetallecompra, editarDetallecompra, crearDetallecompra, eliminarDetallecompra, getDetallecompraID } = require('../controllers/detallecompra');
+const { getDetallecompras, getDetallecompra, editarDetallecompra, crearDetallecompra, eliminarDetallecompra, getDetallecompraID, editarDetallecompraProducto } = require('../controllers/detallecompra');
 const { existeProducto, existeCompra } = require('../helpers/db.validator');
 const { validarJWT, validarCampos } = require('../middlewares');
 const router = Router();
@@ -29,6 +29,7 @@ router.post('/',[
     check('cantidad','La cantidad es obligatoria').isInt(),
     check('preciounitario','El precio es obligatoria').isDecimal(),
     check('total','El total es obligatoria').isDecimal(),
+    check('nombreproducto','El nombre producto es obligatorio').not().isEmpty(),
     validarCampos
 ],crearDetallecompra);
 

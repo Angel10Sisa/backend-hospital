@@ -69,7 +69,7 @@ const ProductoSchema = db.define('Producto',{
 
     ProductoSchema.hasMany(TipoproductoSchema,{foreignKey:'id', sourceKey:'tipoproducto'});
     TipoproductoSchema.belongsTo(ProductoSchema,{foreignKey:'tipoproducto', sourceKey:'id'});
-
+    
     module.exports={
         ProductoSchema
     }

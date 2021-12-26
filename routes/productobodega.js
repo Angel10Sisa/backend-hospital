@@ -4,7 +4,7 @@
 */
 const { Router } = require('express');
 const { check } = require('express-validator');
-const { getProductobodegas, getProductobodega, crearProductobodega, editarProductobodega, eliminarProductobodega, getProductobodegaContar, getProductobodegaB, getProductobodegaidContar, getProductobodegaid } = require('../controllers/productobodega');
+const { getProductobodegas, getProductobodega, crearProductobodega, editarProductobodega, eliminarProductobodega, getProductobodegaContar, getProductobodegaB, getProductobodegaidContar, getProductobodegaid, editarProductobodegaProducto } = require('../controllers/productobodega');
 const { existeBodega, existeProducto } = require('../helpers/db.validator');
 const { validarJWT, validarCampos } = require('../middlewares');
 const router = Router();
@@ -27,6 +27,9 @@ router.get('/',getProductobodegas);
 
 //Obtener ProductoBodegas
 router.get('/listar/:productobodega',getProductobodegaid);
+
+//Editar  Bodega Producto
+router.put('/producto/:id',editarProductobodegaProducto);
 
 //Obtener Productobodega
 router.get('/id/:id',getProductobodega);

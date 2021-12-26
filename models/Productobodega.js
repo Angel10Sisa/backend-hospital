@@ -59,7 +59,6 @@ const ProductobodegaSchema = db.define('Productobodega',{
     {
     freezeTableName: true
     })
-
    
     module.exports={
         ProductobodegaSchema

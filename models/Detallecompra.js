@@ -32,6 +32,10 @@ const DetallecompraSchema = db.define('Detallecompra',{
     total: {
         type: DataTypes.DOUBLE,
         required: true
+    },
+    nombreproducto: {
+        type: DataTypes.STRING,
+        required: true
     }},
     {
     freezeTableName: true

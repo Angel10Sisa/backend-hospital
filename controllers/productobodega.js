@@ -171,8 +171,35 @@ const editarProductobodega = async ( req, res = response) => {
         }
 
         await productobodegas.update(req.body);
+        res.status(201).json({
+            ok: true,
+            productobodegas
+        });
+    } catch (error) {
+        res.status(500).json({
+            msg:'Hable con el administrador'
+        })
+    }
+}
+
+//Editar Bodgea Producto x actualizacion de producto
+const editarProductobodegaProducto = async ( req, res = response ) => {
+    const { id } = req.params;
+    try {
+
+        let productobodegas = await ProductobodegaSchema.findAll({where:{producto:id}});
+        if(!productobodegas){
+            return res.status(404).json({
+                msg: 'No existe Detalle Compra'
+            });
+        }
+        await productobodegas.forEach(element => {
+            element.update(req.body);
+        });
+        //await productobodegas.update(req.body);
         res.json({productobodegas})
     } catch (error) {
+        console.log(error);
         res.status(500).json({
             msg:'Hable con el administrador'
         })
@@ -214,6 +241,7 @@ const eliminarProductobodega = async ( req, res = response) => {
 }
 
 module.exports = {
+    editarProductobodegaProducto,
     getProductobodegaidContar,
     getProductobodegaid,
     getProductobodegaContar,

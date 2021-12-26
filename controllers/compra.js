@@ -233,7 +233,10 @@ const editarCompra = async (req, res=response) =>{
         auditoria.idusuario=req.id;
         await auditoria.save();
 
-        res.json({compras})
+        res.status(201).json({
+            ok: true,
+            compras
+        });
     } catch (error) {
         res.status(500).json({
             msg:'Hable con el administrador'
