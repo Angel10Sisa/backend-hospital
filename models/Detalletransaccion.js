@@ -23,6 +23,10 @@ const DetalletransaccionSchema = db.define('Detalletransaccion',{
     cantidad: {
         type: DataTypes.INTEGER,
         required: true
+    },
+    nombreproducto: {
+        type: DataTypes.TEXT,
+        required: true
     }},
     {
     freezeTableName: true

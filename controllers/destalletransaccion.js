@@ -5,6 +5,20 @@ const { ProductoSchema } = require('../models/Producto');
 const { TransaccionSchema } = require('../models/Transaccion');
 
 
+//Contar Detalle IDCompra
+const getDetalletransaccionID = async(req, res=response) =>{
+    const { detalletransaccion } = req.params;
+    const detalletransacciones = await DetalletransaccionSchema.findAll({where:{transaccion:detalletransaccion}});
+    if(detalletransacciones){
+        res.json({detalletransacciones});
+    }else{
+        res.status(201).json({
+            ok: false,
+            msg: 'No existen Datos que mostrar'
+        })
+    }
+}
+
 //Lista Detalle Transacciones
 const getDetalletransacciones = async (req, res = response ) => {
     try {
@@ -141,6 +155,7 @@ const eliminarDetalletransaccion = async (req, res = response ) => {
 
 
 module.exports = {
+    getDetalletransaccionID,
     getDetalletransacciones,
     getDetalletransaccion,
     crearDetalletransaccion,

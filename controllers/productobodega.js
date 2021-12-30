@@ -6,6 +6,28 @@ const { ProductobodegaSchema } = require('../models/Productobodega');
 const Sequelize = require ('sequelize');
 const Op=Sequelize.Op;
 
+//Obetener Porductobodega x idbodega y id producto
+const getProductobodegaIdBoIdPro = async(req, res=response) =>{
+    try {
+    const { bodega, producto } = req.body;
+        const productobodegas = await ProductobodegaSchema.findOne({where:{[Op.and]:[{bodega:bodega},{producto:producto}]}});
+        if(productobodegas){
+            res.json({productobodegas});
+        }else{
+            res.status(201).json({
+                ok: false,
+                msg: 'No existen Datos que mostrar'
+            })
+        }
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Hable con el administrador'
+        }); 
+    }
+}
+
 //Contar Producto Bodega
 const getProductobodegaContar = async(req, res=response) =>{
     const productobodegas = await ProductobodegaSchema.count();
@@ -241,6 +263,7 @@ const eliminarProductobodega = async ( req, res = response) => {
 }
 
 module.exports = {
+    getProductobodegaIdBoIdPro,
     editarProductobodegaProducto,
     getProductobodegaidContar,
     getProductobodegaid,

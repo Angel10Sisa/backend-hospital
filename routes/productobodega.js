@@ -4,7 +4,7 @@
 */
 const { Router } = require('express');
 const { check } = require('express-validator');
-const { getProductobodegas, getProductobodega, crearProductobodega, editarProductobodega, eliminarProductobodega, getProductobodegaContar, getProductobodegaB, getProductobodegaidContar, getProductobodegaid, editarProductobodegaProducto } = require('../controllers/productobodega');
+const { getProductobodegas, getProductobodega, crearProductobodega, editarProductobodega, eliminarProductobodega, getProductobodegaContar, getProductobodegaB, getProductobodegaidContar, getProductobodegaid, editarProductobodegaProducto, getProductobodegaIdBoIdPro } = require('../controllers/productobodega');
 const { existeBodega, existeProducto } = require('../helpers/db.validator');
 const { validarJWT, validarCampos } = require('../middlewares');
 const router = Router();
@@ -12,6 +12,13 @@ const router = Router();
 
 //Todas tienen que pasar por la validacion de JWT
 router.use(validarJWT);
+
+//Filtrar Producto Bodega x Bodega y Producto
+router.post('/productobodega/',[
+    check('bodega','La bodega es obligatorio').not(),
+    check('producto','El producto es obligatoria').not(),
+    validarCampos
+], getProductobodegaIdBoIdPro);
 
 //Contar Productobodega
 router.get('/contar/', getProductobodegaContar);
