@@ -4,7 +4,7 @@
 */
 const { Router } = require('express');
 const { check } = require('express-validator');
-const { getPacientes, getPacientesT, getPacientesF, getPaciente, crearPaciente, editarPaciente, eliminarPaciente, getPacienteContar, getPacienteContarT, getPacienteB, getPacienteContarF } = require ('../controllers/paciente');
+const { getPacientes, getPacientesT, getPacientesF, getPaciente, crearPaciente, editarPaciente, eliminarPaciente, getPacienteContar, getPacienteContarT, getPacienteB, getPacienteContarF, getPacienteCedula } = require ('../controllers/paciente');
 const { existeEstadocivil, existeSexo, existeAfiliacion, existeTipopaciente, existeDireccion } = require('../helpers/db.validator');
 const { validarJWT, validarCampos } = require('../middlewares');
 const router = Router();
@@ -36,6 +36,9 @@ router.get('/false/false',getPacientesF);
 
 //Obtener Paciente
 router.get('/id/:id',getPaciente);
+
+//Obtener Paciente
+router.get('/cedula/:cedula',getPacienteCedula);
 
 //Ingresar Paciente
 router.post('/',[

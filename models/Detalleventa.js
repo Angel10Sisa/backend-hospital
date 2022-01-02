@@ -21,14 +21,6 @@ const DetalleventaSchema = db.define('Detalleventa',{
             key:'id'
         }
     },
-    bodega: {
-        type: DataTypes.INTEGER,
-        required: true,
-        references:{
-            model: BodegaSchema,
-            key:'id'
-        }
-    },
     cantidad: {
         type: DataTypes.INTEGER,
         required: true
@@ -39,6 +31,10 @@ const DetalleventaSchema = db.define('Detalleventa',{
     },
     total: {
         type: DataTypes.DOUBLE,
+        required: true
+    },
+    nombreproducto: {
+        type: DataTypes.STRING,
         required: true
     }},
     {

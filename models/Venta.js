@@ -5,6 +5,7 @@ const { PacienteSchema } = require('./Paciente');
 const { IvaSchema } = require('./Iva');
 const { DescuentoSchema } = require('./Descuento');
 const { FormapagoSchema } = require('./Formapago');
+const { BodegaSchema } = require('./Bodega');
 
 const VentaSchema = db.define('Venta',{
     fecha: {
@@ -70,6 +71,18 @@ const VentaSchema = db.define('Venta',{
     estado: {
         type: DataTypes.BOOLEAN,
         required: true
+    },
+    identificacion: {
+        type: DataTypes.STRING,
+        required: true
+    },
+    bodega: {
+        type: DataTypes.INTEGER,
+        required: true,
+        references:{
+            model: BodegaSchema,
+            key:'id'
+        }
     }},
     {
     freezeTableName: true
@@ -87,6 +100,8 @@ const VentaSchema = db.define('Venta',{
 
     VentaSchema.hasMany(FormapagoSchema,{foreignKey:'id', sourceKey:'formapago'});
     FormapagoSchema.belongsTo(VentaSchema,{foreignKey:'formapago', sourceKey:'id'});
+
+
 
     module.exports={
         VentaSchema

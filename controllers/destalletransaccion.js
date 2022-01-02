@@ -63,7 +63,6 @@ const getDetalletransaccion = async (req, res = response ) => {
 //Crear Detalle Transaccion
 const crearDetalletransaccion = async (req, res = response ) => {
     const { transaccion, producto } = req.body;
-    const auditoria = new AuditoriaSchema();
     try {
         let transacciones = await TransaccionSchema.findByPk(transaccion);
         if(transacciones.estado === false){
@@ -81,11 +80,6 @@ const crearDetalletransaccion = async (req, res = response ) => {
         }
         let detalletransacciones = new DetalletransaccionSchema(req.body);
         await detalletransacciones.save();
-        //Ingreso a la Auditoria
-        auditoria.name='Ingreso de Detalle Transaccion';
-        auditoria.descripcion=`Ingreso de Detalle transaccion ${detalletransacciones.id}`;
-        auditoria.idusuario=req.id;
-        await auditoria.save();
         res.status(201).json({
             ok: true,
             detalletransacciones
@@ -101,7 +95,6 @@ const crearDetalletransaccion = async (req, res = response ) => {
 //Editar Detalle Transaccion
 const editarDetalletransaccion = async (req, res = response ) => {
     const { id } = req.params;
-    const auditoria = new AuditoriaSchema();
     try {
         let detalletransacciones = await DetalletransaccionSchema.findByPk(id);
         if(!detalletransacciones){
@@ -111,11 +104,6 @@ const editarDetalletransaccion = async (req, res = response ) => {
         }
 
         await detalletransacciones.update(req.body);
-        //Ingreso a la Auditoria
-        auditoria.name='Editar Detalle Transaccion';
-        auditoria.descripcion=`Se edito Detalle Transaccion ${detalletransacciones.id}`;
-        auditoria.idusuario=req.id;
-        await auditoria.save();
 
         res.json({detalletransacciones})
     } catch (error) {
@@ -128,7 +116,6 @@ const editarDetalletransaccion = async (req, res = response ) => {
 //Eliminar Detalle Transaccion
 const eliminarDetalletransaccion = async (req, res = response ) => {
     const { id } = req.params;
-    const auditoria = new AuditoriaSchema();
     try {
         const detalletransacciones = await DetalletransaccionSchema.findByPk(id);
         if(!detalletransacciones){
@@ -137,11 +124,6 @@ const eliminarDetalletransaccion = async (req, res = response ) => {
             });
         }
         await detalletransacciones.destroy();
-        //Ingreso a la Auditoria
-        auditoria.name='Eliminar Detalle Transaccion';
-        auditoria.descripcion=`Se elimino Detalle Transaccio ${detalletransacciones.id}`;
-        auditoria.idusuario=req.id;
-        await auditoria.save();
         res.status(201).json({
             ok: true,
             detalletransacciones

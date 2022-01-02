@@ -118,6 +118,27 @@ const getPacientesF = async (req, res=response) => {
     }
 }
 
+//Obtener Paciente Cedula
+const getPacienteCedula = async (req, res=response) => {
+    const { cedula } = req.params;
+    try {
+        const pacientes = await PacienteSchema.findOne({where:{identificacion:cedula}});
+        if(pacientes){
+            res.json({pacientes});
+        }else{
+            res.status(201).json({
+                ok: false,
+                msg: 'No existen Datos que mostrar'
+            })
+        }
+    } catch (error) {
+        res.status(500).json({
+            ok: false,
+            msg: 'Hable con el administrador'
+        });
+    }
+}
+
 //Obtener Paciente
 const getPaciente = async (req, res=response) => {
     const { id } = req.params;
@@ -237,6 +258,7 @@ module.exports = {
     getPacientes,
     getPacientesT,
     getPacientesF,
+    getPacienteCedula,
     getPaciente,
     crearPaciente,
     editarPaciente,
