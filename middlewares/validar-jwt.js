@@ -15,7 +15,7 @@ const validarJWT = async (req, res = response, next)=>{
     }
 
     try {
-        const { id, name } = jwt.verify(
+        const { id, name, rol } = jwt.verify(
             token,
             process.env.SECRET_JWT_SEED
         );
@@ -40,7 +40,8 @@ const validarJWT = async (req, res = response, next)=>{
 
         req.usuarioau = usuarioau;
         req.id = id;
-        req.name = name;       
+        req.name = name;  
+        req.rol = rol;     
     } catch (error) {
         return res.status(401).json({
             ok: false,
