@@ -1,8 +1,21 @@
 const response = require ('express');
-const { AuditoriaSchema } = require('../models/Auditoria');
 const { DetalleventaSchema } = require('../models/Detalleventa');
 const { ProductoSchema } = require('../models/Producto');
 const { VentaSchema } = require('../models/Venta');
+
+//Sumar Detalle IDCompra
+const getDetalleventaSumar = async(req, res=response) =>{
+    const { detalleventa } = req.params;
+    const detalleventas = await DetalleventaSchema.sum('total',{where:{venta:detalleventa}});
+    if(detalleventas){
+        res.json({detalleventas});
+    }else{
+        res.status(201).json({
+            ok: false,
+            msg: 'No existen Datos que mostrar'
+        })
+    }
+}
 
 //Contar Detalle IDCompra
 const getDetalleventaID = async(req, res=response) =>{
@@ -135,6 +148,7 @@ const eliminarDetalleventa = async ( req, res = response ) => {
 }
 
 module.exports = {
+    getDetalleventaSumar,
     getDetalleventaID,
     getDetalleventas,
     getDetalleventa,
